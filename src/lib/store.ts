@@ -3,13 +3,13 @@ import { browser } from '$app/environment';
 
 export interface TradeEntry {
     id: string;
-    tanggal: string;
-    pasangan_aset: string;
-    modal: number;
-    risiko: number;
-    harga_masuk: number;
-    harga_berhenti_rugi: number;
-    ukuran_posisi: number;
+    date: string;
+    asset_pair: string;
+    capital: number;
+    risk: number;
+    entry_price: number;
+    stop_loss_price: number;
+    position_size: number;
     status: 'Open' | 'Won' | 'Lost';
 }
 

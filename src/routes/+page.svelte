@@ -42,13 +42,13 @@
         
         journalStore.addEntry({
             id: crypto.randomUUID(),
-            tanggal: new Date().toISOString(),
-            pasangan_aset: asset_pair || 'Unknown',
-            modal: capital!,
-            risiko: risk!,
-            harga_masuk: entry_price!,
-            harga_berhenti_rugi: stop_loss!,
-            ukuran_posisi: positionSize,
+            date: new Date().toISOString(),
+            asset_pair: asset_pair || 'Unknown',
+            capital: capital!,
+            risk: risk!,
+            entry_price: entry_price!,
+            stop_loss_price: stop_loss!,
+            position_size: positionSize,
             status: 'Open'
         });
         

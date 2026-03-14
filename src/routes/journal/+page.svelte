@@ -6,14 +6,14 @@
     let winRate = $derived(totalTrades > 0 ? ((wonTrades / totalTrades) * 100).toFixed(1) : '0.0');
     
     let totalPnL = $derived($journalStore.reduce((acc, trade) => {
-        const riskAmount = trade.modal * (trade.risiko / 100);
+        const riskAmount = (trade.capital || 0) * ((trade.risk || 0) / 100);
         if (trade.status === 'Won') return acc + (riskAmount * 2); // Assume 1:2 R:R target
         if (trade.status === 'Lost') return acc - riskAmount;
         return acc;
     }, 0));
     
     let avgRisk = $derived(totalTrades > 0 
-        ? $journalStore.reduce((acc, trade) => acc + (trade.modal * (trade.risiko / 100)), 0) / totalTrades 
+        ? $journalStore.reduce((acc, trade) => acc + ((trade.capital || 0) * ((trade.risk || 0) / 100)), 0) / totalTrades 
         : 0);
 
     let showDeleteModal = $state(false);
@@ -53,6 +53,31 @@
 
     function cancelDeleteAll() {
         showDeleteAllModal = false;
+    }
+
+    let isRoasting = $state(false);
+    let aiRoastMessage = $state<string | null>(null);
+
+    async function callRiskManager() {
+        if ($journalStore.length === 0) return;
+        
+        isRoasting = true;
+        aiRoastMessage = null;
+
+        try {
+            const res = await fetch('/api/roast', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ trades: $journalStore })
+            });
+            
+            const data = await res.json();
+            aiRoastMessage = data.roast || data.error;
+        } catch (err) {
+            aiRoastMessage = "Connection to AI system lost.";
+        } finally {
+            isRoasting = false;
+        }
     }
 </script>
 
@@ -99,6 +124,40 @@
         </div>
     </div>
 
+    <!-- AI Risk Evaluator -->
+    <div class="mb-6 p-6 rounded-2xl bg-slate-900 dark:bg-black border border-slate-800 relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 text-slate-800/30 dark:text-slate-800/50">
+            <span class="material-symbols-outlined text-9xl">smart_toy</span>
+        </div>
+        
+        <div class="relative z-10">
+            <h3 class="text-lg font-black text-white mb-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-amber-400">local_fire_department</span>
+                AI Risk Evaluator
+            </h3>
+            
+            {#if aiRoastMessage}
+                <div class="p-4 rounded-xl bg-slate-800/50 text-slate-300 border-l-4 border-amber-500 font-medium italic text-sm mb-4">
+                    "{aiRoastMessage}"
+                </div>
+            {/if}
+
+            <button 
+                onclick={callRiskManager} 
+                disabled={isRoasting || $journalStore.length === 0}
+                class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 disabled:bg-slate-700 text-slate-900 disabled:text-slate-500 font-bold text-sm transition-all flex items-center gap-2"
+            >
+                {#if isRoasting}
+                    <span class="material-symbols-outlined animate-spin text-sm">sync</span>
+                    Analyzing Discipline...
+                {:else}
+                    <span class="material-symbols-outlined text-sm">psychology</span>
+                    Evaluate My Journal
+                {/if}
+            </button>
+        </div>
+    </div>
+
     <!-- Data Table Card -->
     <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
         <div class="overflow-x-auto">
@@ -121,16 +180,16 @@
                     {#each $journalStore as trade (trade.id)}
                         <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                             <td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-slate-600 dark:text-slate-300">
-                                {new Date(trade.tanggal).toISOString().split('T')[0]}
+                                {trade.date ? new Date(trade.date).toISOString().split('T')[0] : 'N/A'}
                             </td>
                             <td class="px-6 py-5 whitespace-nowrap">
-                                <span class="font-bold text-slate-900 dark:text-white uppercase">{trade.pasangan_aset}</span>
+                                <span class="font-bold text-slate-900 dark:text-white uppercase">{trade.asset_pair || 'UNKNOWN'}</span>
                             </td>
                             <td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-slate-700 dark:text-slate-300 text-right">
-                                {trade.ukuran_posisi.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 6 })}
+                                {(trade.position_size || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 6 })}
                             </td>
                             <td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-slate-700 dark:text-slate-300 text-right">
-                                ${(trade.modal * (trade.risiko / 100)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                ${((trade.capital || 0) * ((trade.risk || 0) / 100)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </td>
                             <td class="px-6 py-5 whitespace-nowrap">
                                 <div class="flex items-center justify-center gap-2">

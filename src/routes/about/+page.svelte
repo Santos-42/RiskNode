@@ -8,7 +8,7 @@
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary mb-2">
                 <span class="material-symbols-outlined text-4xl">help</span>
             </div>
-            <h1 class="text-3xl font-black tracking-tight">How RiskNode Works?</h1>
+            <h1 class="text-3xl font-black tracking-tight">How RiskNode Works</h1>
             <p class="text-slate-500 dark:text-slate-400">Basic principles of risk management to protect your portfolio.</p>
         </header>
 
