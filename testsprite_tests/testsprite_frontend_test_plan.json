@@ -1,0 +1,431 @@
+[
+  {
+    "id": "TC001",
+    "title": "Calculate position size and save entry to journal from calculator",
+    "description": "Verifies a valid position calculation can be saved to the journal and is visible in the journal list.",
+    "category": "Position Calculation",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"BTC/USDT\" into the Asset Pair field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"10000\" into the Capital field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"1\" into the Risk Percentage field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"100\" into the Entry Price field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"90\" into the Stop Loss Price field"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Save to Journal\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Position Size\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Saved calculation appears in journal page list",
+    "description": "Verifies that after saving from the calculator, the entry is visible on the journal page in the same session.",
+    "category": "Position Calculation",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"ETH/USDT\" into the Asset Pair field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"5000\" into the Capital field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"2\" into the Risk Percentage field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"200\" into the Entry Price field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"180\" into the Stop Loss Price field"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Save to Journal\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Journal\" navigation link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/journal\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"ETH/USDT\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Asset Pair is optional and save still works",
+    "description": "Verifies that leaving Asset Pair blank still allows calculation and saving to the journal.",
+    "category": "Position Calculation",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"2500\" into the Capital field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"0.5\" into the Risk Percentage field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"50\" into the Entry Price field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"45\" into the Stop Loss Price field"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Save to Journal\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Position Size\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Mark an existing journal entry as Won",
+    "description": "Verifies a journal entry can be updated to Won and the updated status is visible in the list.",
+    "category": "Trading Journal",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Journal entries list\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"A journal entry row\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Won\" button for a journal entry"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Won\" is visible within that journal entry"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Mark an existing journal entry as Lost",
+    "description": "Verifies a journal entry can be updated to Lost and the updated status is visible in the list.",
+    "category": "Trading Journal",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Journal entries list\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"A journal entry row\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Lost\" button for a journal entry"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Lost\" is visible within that journal entry"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Delete a single journal entry from the list",
+    "description": "Verifies a single journal entry can be removed from the visible list via Delete on that entry.",
+    "category": "Trading Journal",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"A journal entry row\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Delete\" button on a journal entry is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Delete\" button for a journal entry"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No entries\" is visible or the deleted entry is no longer visible in the list"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Delete all journal entries using Delete All",
+    "description": "Verifies the Delete All control clears the journal list in the UI.",
+    "category": "Trading Journal",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Delete all\" button is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Delete all\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No entries\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Journal entries list\" is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Delete All on an already-empty journal",
+    "description": "Verifies Delete All is safe/idempotent when there are no entries and the UI remains in an empty state.",
+    "category": "Trading Journal",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Delete all\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No entries\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"A journal entry row\" is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Mark Won on an entry already marked Won",
+    "description": "Verifies clicking Won again does not break the UI and the entry remains marked as Won.",
+    "category": "Trading Journal",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"A journal entry row\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Won\" button for a journal entry"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Won\" is visible within that journal entry"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Won\" button for the same journal entry"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Won\" is visible within that journal entry"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Toggle status from Won to Lost for the same entry",
+    "description": "Verifies a user can change an entry status from Won to Lost and the latest status is reflected in the UI.",
+    "category": "Trading Journal",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"A journal entry row\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Won\" button for a journal entry"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Won\" is visible within that journal entry"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Lost\" button for the same journal entry"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Lost\" is visible within that journal entry"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Evaluate journal successfully shows AI feedback",
+    "description": "Verifies that evaluating a non-empty journal runs analysis and displays an AI feedback message.",
+    "category": "AI Risk Evaluator",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Evaluate My Journal\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Evaluate My Journal\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Analyzing Discipline...\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"AI feedback\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"AI evaluation failed\" is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Double-click prevention: button stays in analyzing state after first click",
+    "description": "Verifies that repeated clicking does not interrupt the analyzing state once evaluation has started.",
+    "category": "AI Risk Evaluator",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Evaluate My Journal\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Evaluate My Journal\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Analyzing Discipline...\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Evaluating\" button showing text \"Analyzing Discipline...\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Analyzing Discipline...\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "AI feedback remains visible after scrolling the journal page",
+    "description": "Verifies that once AI feedback is displayed, it remains visible during normal page interaction.",
+    "category": "AI Risk Evaluator",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Evaluate My Journal\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"AI feedback\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the bottom of the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"AI feedback\" is visible"
+      }
+    ]
+  }
+]

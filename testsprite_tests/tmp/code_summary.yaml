@@ -1,0 +1,65 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - SvelteKit
+  - Tailwind CSS
+  - Google Generative AI (Gemini 2.5 Flash)
+routes:
+  - path: /
+    file: src/routes/+page.svelte
+    auth_required: false
+    description: Risk Calculator and Position Sizer
+  - path: /journal
+    file: src/routes/journal/+page.svelte
+    auth_required: false
+    description: Trading Journal and AI Risk Evaluator
+  - path: /about
+    file: src/routes/about/+page.svelte
+    auth_required: false
+    description: How It Works page
+features:
+  - name: Position Calculation
+    description: Calculate allowed position size based on capital, risk percentage (max 5%), and price distance.
+    files:
+      - src/routes/+page.svelte
+    entry_route: /
+    user_interactions:
+      - Fill Asset Pair (optional)
+      - Fill Capital
+      - Fill Risk Percentage
+      - Fill Entry Price
+      - Fill Stop Loss Price
+      - Click "Save to Journal" button
+    api_calls: []
+    auth_required: false
+  - name: Trading Journal
+    description: Record, view, and manage trading history stored in localStorage.
+    files:
+      - src/routes/journal/+page.svelte
+      - src/lib/store.ts
+    entry_route: /journal
+    user_interactions:
+      - Mark trade as Won
+      - Mark trade as Lost
+      - Delete single entry
+      - Delete all entries
+    api_calls: []
+    auth_required: false
+  - name: AI Risk Evaluator
+    description: Get AI-powered feedback on trading history using Gemini.
+    files:
+      - src/routes/journal/+page.svelte
+      - src/routes/api/roast/+server.ts
+    entry_route: /journal
+    user_interactions:
+      - Click "Evaluate My Journal" button
+      - See AI feedback message
+    api_calls:
+      - method: POST
+        endpoint: /api/roast
+    auth_required: false
+known_limitations:
+  - issue: Local-only storage
+    location: src/lib/store.ts
+    impact: Data is lost if browser cache/localStorage is cleared.
