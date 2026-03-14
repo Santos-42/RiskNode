@@ -125,7 +125,7 @@
     </div>
 
     <!-- AI Risk Evaluator -->
-    <div class="mb-6 p-6 rounded-2xl bg-slate-900 dark:bg-black border border-slate-800 relative overflow-hidden">
+    <div class="mb-6 p-6 rounded-2xl bg-slate-800 dark:bg-slate-800 border border-slate-800 relative overflow-hidden">
         <div class="absolute -right-10 -top-10 text-slate-800/30 dark:text-slate-800/50">
             <span class="material-symbols-outlined text-9xl">smart_toy</span>
         </div>
