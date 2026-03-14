@@ -66,7 +66,7 @@
             </p>
         </div>
         <div class="flex gap-3">
-            <button onclick={requestDeleteAll} class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold text-sm hover:opacity-90 transition-opacity">
+            <button data-testid="btn-delete-all" onclick={requestDeleteAll} class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold text-sm hover:opacity-90 transition-opacity">
                 <span class="material-symbols-outlined text-lg">delete_sweep</span>
                 Delete All
             </button>
@@ -136,15 +136,15 @@
                                 <div class="flex items-center justify-center gap-2">
                                     {#if trade.status === 'Open'}
                                         <div class="flex gap-1">
-                                            <button onclick={() => setStatus(trade.id, 'Won')} class="px-3 py-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold hover:brightness-105 transition-all">Won</button>
-                                            <button onclick={() => setStatus(trade.id, 'Lost')} class="px-3 py-1.5 rounded-lg bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 text-xs font-bold hover:brightness-105 transition-all">Lost</button>
+                                            <button data-testid="btn-won" onclick={() => setStatus(trade.id, 'Won')} class="px-3 py-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold hover:brightness-105 transition-all">Won</button>
+                                            <button data-testid="btn-lost" onclick={() => setStatus(trade.id, 'Lost')} class="px-3 py-1.5 rounded-lg bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 text-xs font-bold hover:brightness-105 transition-all">Lost</button>
                                         </div>
                                     {:else if trade.status === 'Won'}
                                         <span class="px-3 py-1.5 rounded-lg bg-emerald-500 text-white text-xs font-black uppercase shadow-sm">Won</span>
                                     {:else}
                                         <span class="px-3 py-1.5 rounded-lg bg-rose-500 text-white text-xs font-black uppercase shadow-sm">Lost</span>
                                     {/if}
-                                    <button onclick={() => requestDelete(trade.id)} class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all">
+                                    <button data-testid="btn-delete" onclick={() => requestDelete(trade.id)} class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all">
                                         <span class="material-symbols-outlined text-sm">delete</span>
                                     </button>
                                 </div>

@@ -96,7 +96,7 @@
                     <label for="capital" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Capital (USDT)</label>
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">account_balance_wallet</span>
-                        <input id="capital" bind:value={capital} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="1000" type="number" />
+                        <input id="capital" data-testid="input-modal" bind:value={capital} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="1000" type="number" />
                     </div>
                 </div>
 
@@ -105,7 +105,7 @@
                     <label for="risk" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Risk (%)</label>
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">warning</span>
-                        <input id="risk" bind:value={risk} min="0" max="5" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="1" type="number" />
+                        <input id="risk" data-testid="input-risiko" bind:value={risk} min="0" max="5" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="1" type="number" />
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@
                     <label for="entry_price" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Entry Price</label>
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">login</span>
-                        <input id="entry_price" bind:value={entry_price} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="50000" type="number" />
+                        <input id="entry_price" data-testid="input-entry" bind:value={entry_price} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="50000" type="number" />
                     </div>
                 </div>
 
@@ -125,7 +125,7 @@
                     <label for="stop_loss" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Stop Loss Price</label>
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">cancel</span>
-                        <input id="stop_loss" bind:value={stop_loss} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="48000" type="number" />
+                        <input id="stop_loss" data-testid="input-stoploss" bind:value={stop_loss} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="48000" type="number" />
                     </div>
                 </div>
             </div>
@@ -152,7 +152,7 @@
             </div>
 
             <!-- Submit Button -->
-            <button disabled={!isValid} type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+            <button data-testid="btn-calculate" disabled={!isValid} type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
                 <span class="material-symbols-outlined">save</span>
                 Save to Journal
             </button>
