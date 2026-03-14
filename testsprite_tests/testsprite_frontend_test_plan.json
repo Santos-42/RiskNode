@@ -1,0 +1,314 @@
+[
+  {
+    "id": "TC001",
+    "title": "Save a valid risk calculation to Journal and verify it appears",
+    "description": "Verifies a valid set of inputs calculates a position size and can be saved to the Journal where it appears as a new entry.",
+    "category": "Risk Calculation",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"10000\" into the capital field (data-testid=\"input-modal\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"2\" into the risk % field (data-testid=\"input-risiko\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"100\" into the entry price field (data-testid=\"input-entry\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"95\" into the stop loss price field (data-testid=\"input-stoploss\")"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Position Size\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Save to Journal\" button (data-testid=\"btn-calculate\")"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Journal\" navigation link to go to the journal page"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Journal shows the newly saved position size value",
+    "description": "Verifies that after saving a valid calculation, the Journal displays a new entry including a position_size value.",
+    "category": "Risk Calculation",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"5000\" into the capital field (data-testid=\"input-modal\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"1\" into the risk % field (data-testid=\"input-risiko\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"250\" into the entry price field (data-testid=\"input-entry\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"240\" into the stop loss price field (data-testid=\"input-stoploss\")"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Save to Journal\" button (data-testid=\"btn-calculate\")"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Journal\" navigation link to go to the journal page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"position_size\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Stop loss equal to entry shows invalid price distance and disables save",
+    "description": "Verifies validation triggers when stop loss equals entry and prevents saving to the Journal.",
+    "category": "Risk Calculation",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"10000\" into the capital field (data-testid=\"input-modal\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"2\" into the risk % field (data-testid=\"input-risiko\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"100\" into the entry price field (data-testid=\"input-entry\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"100\" into the stop loss price field (data-testid=\"input-stoploss\")"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Invalid price distance\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Save to Journal button (data-testid=btn-calculate)\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"disabled\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Risk percent above 5% shows validation error and disables save",
+    "description": "Verifies risk percent validation blocks saving when risk exceeds 5%.",
+    "category": "Risk Calculation",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"10000\" into the capital field (data-testid=\"input-modal\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"6\" into the risk % field (data-testid=\"input-risiko\")"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Risk must be 5% or less\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Save to Journal button (data-testid=btn-calculate)\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"disabled\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Negative capital shows validation error and disables save",
+    "description": "Verifies negative capital is rejected and saving is prevented.",
+    "category": "Risk Calculation",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"-100\" into the capital field (data-testid=\"input-modal\")"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Values must not be negative\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Save to Journal button (data-testid=btn-calculate)\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"disabled\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Boundary: Risk percent exactly 5% allows calculation and save",
+    "description": "Verifies the maximum allowed risk percent (5%) still enables calculation and saving to the Journal.",
+    "category": "Risk Calculation",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"2000\" into the capital field (data-testid=\"input-modal\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"5\" into the risk % field (data-testid=\"input-risiko\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"50\" into the entry price field (data-testid=\"input-entry\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"45\" into the stop loss price field (data-testid=\"input-stoploss\")"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Position Size\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Save to Journal\" button (data-testid=\"btn-calculate\")"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Journal\" navigation link to go to the journal page"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Correct an invalid price distance to enable saving",
+    "description": "Verifies fixing stop loss after an invalid equal-to-entry error removes the error and allows saving.",
+    "category": "Risk Calculation",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"3000\" into the capital field (data-testid=\"input-modal\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"2\" into the risk % field (data-testid=\"input-risiko\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"100\" into the entry price field (data-testid=\"input-entry\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"100\" into the stop loss price field (data-testid=\"input-stoploss\")"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Invalid price distance\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Type \"98\" into the stop loss price field (data-testid=\"input-stoploss\")"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Save to Journal\" button (data-testid=\"btn-calculate\")"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Correct an over-limit risk % to re-enable saving",
+    "description": "Verifies reducing risk percent from above 5% to an allowed value clears the error and permits saving.",
+    "category": "Risk Calculation",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"4000\" into the capital field (data-testid=\"input-modal\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"7\" into the risk % field (data-testid=\"input-risiko\")"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Risk must be 5% or less\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Type \"3\" into the risk % field (data-testid=\"input-risiko\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"200\" into the entry price field (data-testid=\"input-entry\")"
+      },
+      {
+        "type": "action",
+        "description": "Type \"190\" into the stop loss price field (data-testid=\"input-stoploss\")"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Position Size\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Save to Journal\" button (data-testid=\"btn-calculate\")"
+      }
+    ]
+  }
+]

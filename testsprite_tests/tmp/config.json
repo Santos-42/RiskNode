@@ -1,0 +1,18 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5173",
+  "executionArgs": {
+    "projectName": "RiskNode",
+    "projectPath": "d:\\Hackathons\\TestSprite - 16 March 2026\\RiskNode",
+    "testIds": [],
+    "additionalInstruction": "This app uses SvelteKit and is purely client-based using localStorage. Create End-to-End (E2E) test scenarios using Playwright to simulate user interactions on the DOM. Use `data-testid` attributes for targeting elements. \n\nSpecifically, verify the following logic constraints:\n- Risk Percentage > 5% must be rejected/blocked.\n- Entry Price == Stop Loss Price must be rejected with a clear error message 'Invalid price distance'.\n- All numerical inputs must not be negative.\n- Successful calculations must be savable to the journal and persist in the Journal page.\n- In the Journal page, ensure trade outcomes (Won/Lost) can be marked and entries can be deleted.",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-aEuK5oyDsdAXPnqUKvuyAzcYUDh_Uo4UBNcxZIrLwEZW122mTo1QLm7kJn8DFhJZRtztHm9L78b4zQNLiKgXcs0Pb1gpS7KpfKm5b6VT5KsHcaFCP8s08wdtPlQPYYTZZkI"
+    }
+  },
+  "serverPort": 49694,
+  "proxy": "http://71097d24-7650-48c6-b743-e59c07c2e860:r3lunqiigI8RnSUwbh243j4Vii1ThNE7@tun.testsprite.com:8080"
+}
