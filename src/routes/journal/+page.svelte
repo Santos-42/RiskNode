@@ -143,6 +143,7 @@
             {/if}
 
             <button 
+                data-testid="btn-roast"
                 onclick={callRiskManager} 
                 disabled={isRoasting || $journalStore.length === 0}
                 class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 disabled:bg-slate-700 text-slate-900 disabled:text-slate-500 font-bold text-sm transition-all flex items-center gap-2"

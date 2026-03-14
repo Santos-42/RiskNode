@@ -86,14 +86,14 @@
                 <label for="asset_pair" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Asset Pair (Optional)</label>
                 <div class="relative">
                     <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">currency_bitcoin</span>
-                    <input id="asset_pair" bind:value={asset_pair} class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white placeholder:text-slate-400" placeholder="e.g. BTC/USDT" type="text" />
+                    <input id="asset_pair" data-testid="input-asset" bind:value={asset_pair} class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white placeholder:text-slate-400" placeholder="e.g. BTC/USDT" type="text" />
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <!-- Capital -->
                 <div class="flex flex-col gap-2">
-                    <label for="capital" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Capital (USDT)</label>
+                    <label for="capital" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Capital (USD)</label>
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">account_balance_wallet</span>
                         <input id="capital" data-testid="input-modal" bind:value={capital} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="1000" type="number" />
