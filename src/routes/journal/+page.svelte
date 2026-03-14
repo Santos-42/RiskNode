@@ -17,6 +17,7 @@
         : 0);
 
     let showDeleteModal = $state(false);
+    let showDeleteAllModal = $state(false);
     let deleteTargetId = $state<string | null>(null);
 
     function setStatus(id: string, status: 'Won' | 'Lost') {
@@ -41,10 +42,17 @@
         deleteTargetId = null;
     }
     
-    function removeAll() {
-        if(confirm('Delete all journal entries?')) {
-            journalStore.reset();
-        }
+    function requestDeleteAll() {
+        showDeleteAllModal = true;
+    }
+
+    function confirmDeleteAll() {
+        journalStore.reset();
+        showDeleteAllModal = false;
+    }
+
+    function cancelDeleteAll() {
+        showDeleteAllModal = false;
     }
 </script>
 
@@ -58,7 +66,7 @@
             </p>
         </div>
         <div class="flex gap-3">
-            <button onclick={removeAll} class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold text-sm hover:opacity-90 transition-opacity">
+            <button onclick={requestDeleteAll} class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold text-sm hover:opacity-90 transition-opacity">
                 <span class="material-symbols-outlined text-lg">delete_sweep</span>
                 Delete All
             </button>
@@ -148,6 +156,7 @@
         </div>
     </div>
 
+    <!-- Modals -->
     {#if showDeleteModal}
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
             <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-700 animate-in fade-in zoom-in duration-200">
@@ -159,6 +168,22 @@
                 <div class="flex gap-3">
                     <button onclick={cancelDelete} class="flex-1 px-4 py-2.5 rounded-xl font-bold text-sm bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">Cancel</button>
                     <button onclick={confirmDelete} class="flex-1 px-4 py-2.5 rounded-xl font-bold text-sm bg-rose-500 hover:bg-rose-600 text-white shadow-lg shadow-rose-500/30 transition-all">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    {/if}
+
+    {#if showDeleteAllModal}
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-700 animate-in fade-in zoom-in duration-200">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-500/20 mb-4 mx-auto">
+                    <span class="material-symbols-outlined text-rose-600 dark:text-rose-400 text-2xl">delete_forever</span>
+                </div>
+                <h3 class="text-lg font-black text-center text-slate-900 dark:text-white mb-2">Delete All Entries?</h3>
+                <p class="text-sm text-center text-slate-500 dark:text-slate-400 mb-6">This will wipe your entire trading history. This action absolute and cannot be recovered.</p>
+                <div class="flex gap-3">
+                    <button onclick={cancelDeleteAll} class="flex-1 px-4 py-2.5 rounded-xl font-bold text-sm bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">Cancel</button>
+                    <button onclick={confirmDeleteAll} class="flex-1 px-4 py-2.5 rounded-xl font-bold text-sm bg-rose-500 hover:bg-rose-600 text-white shadow-lg shadow-rose-500/30 transition-all">Wipe Everything</button>
                 </div>
             </div>
         </div>
