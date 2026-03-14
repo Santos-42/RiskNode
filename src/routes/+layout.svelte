@@ -34,6 +34,7 @@
             <nav class="flex items-center gap-6">
                 <a href="/" class="text-sm transition-colors {$page.url.pathname === '/' ? 'font-semibold text-primary' : 'font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white'}">Calculator</a>
                 <a href="/journal" class="text-sm transition-colors {$page.url.pathname.startsWith('/journal') ? 'font-semibold text-primary' : 'font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white'}">Journal</a>
+                <a href="/about" class="text-sm transition-colors {$page.url.pathname === '/about' ? 'font-semibold text-primary' : 'font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white'}">How It Works</a>
                 
                 <button onclick={toggleTheme} class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" title="Toggle Theme">
                     <span class="material-symbols-outlined">{isDark ? 'light_mode' : 'dark_mode'}</span>
@@ -50,6 +51,12 @@
             <p class="text-sm text-slate-500 dark:text-slate-500 font-medium">
                 Built for <span class="text-slate-900 dark:text-slate-300">TestSprite Hackathon</span>. Not Financial Advice.
             </p>
+            <div class="mt-4 flex justify-center">
+                <a href="https://github.com/Santos-42/RiskNode" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-500 dark:hover:text-slate-300 transition-colors">
+                    <span class="material-symbols-outlined text-[16px]">code</span>
+                    Source Code
+                </a>
+            </div>
             <div class="mt-4 flex justify-center gap-4 text-slate-400">
                 <span class="material-symbols-outlined text-sm">security</span>
                 <span class="material-symbols-outlined text-sm">bolt</span>
