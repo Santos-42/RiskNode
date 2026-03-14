@@ -1,6 +1,7 @@
 <script lang="ts">
     import '../app.css';
     import { onMount } from 'svelte';
+    import { page } from '$app/stores';
 
     const { children } = $props();
 
@@ -28,10 +29,12 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <a href="/" class="flex items-center gap-2">
                 <img src={isDark ? '/assets/dark.png' : '/assets/light.png'} alt="RiskNode Logo" class="h-8 w-auto object-contain" />
+                <span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">Risk<span class="text-primary">Node</span></span>
             </a>
             <nav class="flex items-center gap-6">
-                <a class="text-sm font-semibold text-primary" href="/">Kalkulator</a>
-                <a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors" href="/journal">Jurnal</a>
+                <a href="/" class="text-sm transition-colors {$page.url.pathname === '/' ? 'font-semibold text-primary' : 'font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white'}">Calculator</a>
+                <a href="/journal" class="text-sm transition-colors {$page.url.pathname.startsWith('/journal') ? 'font-semibold text-primary' : 'font-medium text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white'}">Journal</a>
+                
                 <button onclick={toggleTheme} class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" title="Toggle Theme">
                     <span class="material-symbols-outlined">{isDark ? 'light_mode' : 'dark_mode'}</span>
                 </button>
@@ -45,7 +48,7 @@
     <footer class="py-8 border-t border-slate-200 dark:border-slate-800 mt-auto bg-white dark:bg-background-dark">
         <div class="max-w-5xl mx-auto px-4 text-center">
             <p class="text-sm text-slate-500 dark:text-slate-500 font-medium">
-                Dibangun untuk <span class="text-slate-900 dark:text-slate-300">TestSprite Hackathon</span>. Bukan Saran Keuangan.
+                Built for <span class="text-slate-900 dark:text-slate-300">TestSprite Hackathon</span>. Not Financial Advice.
             </p>
             <div class="mt-4 flex justify-center gap-4 text-slate-400">
                 <span class="material-symbols-outlined text-sm">security</span>

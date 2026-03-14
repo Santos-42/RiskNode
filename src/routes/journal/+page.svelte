@@ -2,13 +2,13 @@
     import { journalStore, type TradeEntry } from '$lib/store';
     
     let totalTrades = $derived($journalStore.length);
-    let wonTrades = $derived($journalStore.filter(t => t.status === 'Menang').length);
+    let wonTrades = $derived($journalStore.filter(t => t.status === 'Won').length);
     let winRate = $derived(totalTrades > 0 ? ((wonTrades / totalTrades) * 100).toFixed(1) : '0.0');
     
     let totalPnL = $derived($journalStore.reduce((acc, trade) => {
         const riskAmount = trade.modal * (trade.risiko / 100);
-        if (trade.status === 'Menang') return acc + (riskAmount * 2); // Asumsi target R:R 1:2
-        if (trade.status === 'Kalah') return acc - riskAmount;
+        if (trade.status === 'Won') return acc + (riskAmount * 2); // Assume 1:2 R:R target
+        if (trade.status === 'Lost') return acc - riskAmount;
         return acc;
     }, 0));
     
@@ -16,18 +16,33 @@
         ? $journalStore.reduce((acc, trade) => acc + (trade.modal * (trade.risiko / 100)), 0) / totalTrades 
         : 0);
 
-    function setStatus(id: string, status: 'Menang' | 'Kalah') {
+    let showDeleteModal = $state(false);
+    let deleteTargetId = $state<string | null>(null);
+
+    function setStatus(id: string, status: 'Won' | 'Lost') {
         journalStore.updateEntryStatus(id, status);
     }
     
-    function deleteEntry(id: string) {
-        if(confirm('Hapus entri ini?')) {
-            journalStore.removeEntry(id);
+    function requestDelete(id: string) {
+        deleteTargetId = id;
+        showDeleteModal = true;
+    }
+
+    function confirmDelete() {
+        if (deleteTargetId) {
+            journalStore.removeEntry(deleteTargetId);
+            showDeleteModal = false;
+            deleteTargetId = null;
         }
+    }
+
+    function cancelDelete() {
+        showDeleteModal = false;
+        deleteTargetId = null;
     }
     
     function removeAll() {
-        if(confirm('Hapus semua jurnal?')) {
+        if(confirm('Delete all journal entries?')) {
             journalStore.reset();
         }
     }
@@ -39,17 +54,17 @@
         <div class="space-y-2">
             <h2 class="text-4xl font-black text-slate-900 dark:text-white tracking-tight">Trading Journal</h2>
             <p class="text-slate-500 dark:text-slate-400 max-w-lg">
-                Pantau dan analisis performa perdagangan kripto Anda dengan manajemen risiko yang disiplin.
+                Monitor and analyze your crypto trading performance with disciplined risk management.
             </p>
         </div>
         <div class="flex gap-3">
             <button onclick={removeAll} class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold text-sm hover:opacity-90 transition-opacity">
                 <span class="material-symbols-outlined text-lg">delete_sweep</span>
-                Hapus Semua
+                Delete All
             </button>
             <a href="/" class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-white font-bold text-sm shadow-lg shadow-primary/20 hover:brightness-110 transition-all">
                 <span class="material-symbols-outlined text-lg">add</span>
-                Tambah Kalkulasi
+                Add Calculation
             </a>
         </div>
     </div>
@@ -67,7 +82,7 @@
         <div class="bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
             <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Total PNL</p>
             <p class="text-2xl font-black {totalPnL > 0 ? 'text-emerald-500' : totalPnL < 0 ? 'text-rose-500' : 'text-slate-500'}">
-                {totalPnL > 0 ? '+' : ''}${totalPnL.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {totalPnL < 0 ? '-' : totalPnL > 0 ? '+' : ''}${Math.abs(totalPnL).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
         </div>
         <div class="bg-white dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
@@ -82,17 +97,17 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50 dark:bg-slate-800/80">
-                        <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">Tanggal</th>
-                        <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">Aset</th>
-                        <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800 text-right">Ukuran Posisi</th>
-                        <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800 text-right">Risiko ($)</th>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">Date</th>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">Asset</th>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800 text-right">Position Size</th>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800 text-right">Risk ($)</th>
                         <th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800 text-center">Status</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                     {#if $journalStore.length === 0}
                         <tr>
-                            <td colspan="5" class="px-6 py-10 text-center text-slate-500 font-medium">Belum ada jurnal perdagangan.</td>
+                            <td colspan="5" class="px-6 py-10 text-center text-slate-500 font-medium">No trading records yet.</td>
                         </tr>
                     {/if}
                     {#each $journalStore as trade (trade.id)}
@@ -111,17 +126,17 @@
                             </td>
                             <td class="px-6 py-5 whitespace-nowrap">
                                 <div class="flex items-center justify-center gap-2">
-                                    {#if trade.status === 'Terbuka'}
+                                    {#if trade.status === 'Open'}
                                         <div class="flex gap-1">
-                                            <button onclick={() => setStatus(trade.id, 'Menang')} class="px-3 py-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold hover:brightness-105 transition-all">Menang</button>
-                                            <button onclick={() => setStatus(trade.id, 'Kalah')} class="px-3 py-1.5 rounded-lg bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 text-xs font-bold hover:brightness-105 transition-all">Kalah</button>
+                                            <button onclick={() => setStatus(trade.id, 'Won')} class="px-3 py-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold hover:brightness-105 transition-all">Won</button>
+                                            <button onclick={() => setStatus(trade.id, 'Lost')} class="px-3 py-1.5 rounded-lg bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 text-xs font-bold hover:brightness-105 transition-all">Lost</button>
                                         </div>
-                                    {:else if trade.status === 'Menang'}
-                                        <span class="px-3 py-1.5 rounded-lg bg-emerald-500 text-white text-xs font-black uppercase shadow-sm">Menang</span>
+                                    {:else if trade.status === 'Won'}
+                                        <span class="px-3 py-1.5 rounded-lg bg-emerald-500 text-white text-xs font-black uppercase shadow-sm">Won</span>
                                     {:else}
-                                        <span class="px-3 py-1.5 rounded-lg bg-rose-500 text-white text-xs font-black uppercase shadow-sm">Kalah</span>
+                                        <span class="px-3 py-1.5 rounded-lg bg-rose-500 text-white text-xs font-black uppercase shadow-sm">Lost</span>
                                     {/if}
-                                    <button onclick={() => deleteEntry(trade.id)} class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all">
+                                    <button onclick={() => requestDelete(trade.id)} class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all">
                                         <span class="material-symbols-outlined text-sm">delete</span>
                                     </button>
                                 </div>
@@ -132,4 +147,20 @@
             </table>
         </div>
     </div>
+
+    {#if showDeleteModal}
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-700 animate-in fade-in zoom-in duration-200">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-500/20 mb-4 mx-auto">
+                    <span class="material-symbols-outlined text-rose-600 dark:text-rose-400 text-2xl">warning</span>
+                </div>
+                <h3 class="text-lg font-black text-center text-slate-900 dark:text-white mb-2">Delete Journal Entry?</h3>
+                <p class="text-sm text-center text-slate-500 dark:text-slate-400 mb-6">This action cannot be undone. This trade data will be permanently lost from your local storage.</p>
+                <div class="flex gap-3">
+                    <button onclick={cancelDelete} class="flex-1 px-4 py-2.5 rounded-xl font-bold text-sm bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">Cancel</button>
+                    <button onclick={confirmDelete} class="flex-1 px-4 py-2.5 rounded-xl font-bold text-sm bg-rose-500 hover:bg-rose-600 text-white shadow-lg shadow-rose-500/30 transition-all">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    {/if}
 </main>

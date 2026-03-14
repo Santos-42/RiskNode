@@ -10,7 +10,7 @@ export interface TradeEntry {
     harga_masuk: number;
     harga_berhenti_rugi: number;
     ukuran_posisi: number;
-    status: 'Terbuka' | 'Menang' | 'Kalah';
+    status: 'Open' | 'Won' | 'Lost';
 }
 
 const STORAGE_KEY = 'risknode_journal';
@@ -42,7 +42,7 @@ function createJournalStore() {
                 return newEntries;
             });
         },
-        updateEntryStatus: (id: string, status: 'Menang' | 'Kalah') => {
+        updateEntryStatus: (id: string, status: 'Won' | 'Lost') => {
             update(entries => {
                 const newEntries = entries.map(e => e.id === id ? { ...e, status } : e);
                 if (browser) {

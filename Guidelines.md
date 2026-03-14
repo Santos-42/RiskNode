@@ -1,7 +1,15 @@
-Kerangka Kerja (Framework): SvelteKit. Mengapa? Svelte tidak menggunakan Virtual DOM. Kode Anda dikompilasi menjadi JavaScript murni yang sangat kecil dan sangat cepat. Ini adalah definisi sesungguhnya dari "ringan". Untuk aplikasi interaktif berbasis formulir tunggal, Svelte jauh lebih superior dan lebih cepat diatur daripada React.
+# Framework
 
-Manajemen Status (State Management): Svelte Stores. Gunakan writable store bawaan Svelte dan sinkronkan secara manual dengan localStorage menggunakan onMount. Tidak perlu pustaka eksternal seperti Redux atau Zustand.
+**SvelteKit**. Why? Svelte doesn't use a Virtual DOM. Your code is compiled into very small, very fast pure JavaScript. This is the true definition of "lightweight". For single-form interactive applications, Svelte is far superior and faster to set up than React.
 
-Penataan Gaya (Styling): Tailwind CSS. Jangan menulis file CSS terpisah. Gunakan kelas utilitas Tailwind agar Anda dapat membangun UI dalam hitungan menit, bukan jam.
+# State Management
 
-Pengujian (Wajib): TestSprite MCP. Ini adalah syarat mutlak hackathon. Anda akan menggunakan agen ini untuk menghasilkan skenario pengujian secara otomatis pada formulir kalkulator Anda.
+**Svelte Stores**. Use Svelte's built-in writable store and manually sync with `localStorage` using `onMount`. No need for external libraries like Redux or Zustand.
+
+# Styling
+
+**Tailwind CSS**. Don't write separate CSS files. Use Tailwind utility classes so you can build the UI in minutes, not hours.
+
+# Testing (Mandatory)
+
+**TestSprite MCP**. This is an absolute requirement for the hackathon. You will use this agent to automatically generate test scenarios for your calculator form.

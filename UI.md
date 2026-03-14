@@ -1,50 +1,50 @@
-1. Header Global (Navigasi Statis)
-   Komponen: Teks logo tebal di kiri ("RiskNode"). Dua tautan di kanan: "Kalkulator" dan "Jurnal".
-   Fungsi: Memungkinkan transisi instan antar dua halaman tanpa memuat ulang (SPA routing SvelteKit).
+# Global Header (Static Navigation)
+**Component**: Bold logo text on the left ("RiskNode"). Two links on the right: "Calculator" and "Journal".
+**Function**: Allows instant transition between the two pages without reloading (SvelteKit SPA routing).
 
-2. Halaman Utama (/ atau /calculator)
-   Visual: Formulir satu kolom di tengah layar. Bersih, kontras tinggi.
-   Alur:
-   Pengguna memasukkan Modal (USDT), Risiko (%), Harga Masuk, dan Harga Berhenti Rugi.
-   Di bawah formulir, sebuah kartu hasil secara real-time menampilkan "Ukuran Posisi yang Diizinkan". Angka ini berubah setiap kali pengguna mengetik (reaktivitas Svelte).
-   Terdapat input teks tambahan opsional: "Pasangan Aset" (misal: BTC/USDT).
-   Tombol besar di bagian bawah: "Simpan ke Jurnal".
-   Aksi Tombol: Memvalidasi data. Jika valid, objek dimasukkan ke Svelte Store (yang memicu penyimpanan ke localStorage), menampilkan notifikasi sukses singkat, lalu mengosongkan formulir.
+# Main Page (/ or /calculator)
+**Visual**: Single-column form in the center of the screen. Clean, high contrast.
+**Flow**:
+1. User enters Capital (USDT), Risk (%), Entry Price, and Stop Loss Price.
+2. Below the form, a result card displays the "Allowed Position Size" in real-time. This number changes as the user types (Svelte reactivity).
+3. There is an optional additional text input: "Asset Pair" (e.g., BTC/USDT).
+4. Large button at the bottom: "Save to Journal".
+5. **Button Action**: Validates data. If valid, the object is entered into the Svelte Store (which triggers saving to `localStorage`), displays a short success notification, and then clears the form.
 
-3. Halaman Jurnal (/journal)
-   Visual: Tata letak dasbor berupa tabel data.
-   Alur:
-   Tabel membaca status dari localStorage saat dimuat.
-   Kolom menampilkan: Tanggal, Aset, Ukuran Posisi, Risiko ($), dan Status.
-   Di kolom status, terdapat menu tarik-turun (dropdown) atau tiga tombol kecil untuk setiap baris: "Set Menang", "Set Kalah", "Hapus".
-   Aksi Tombol: Memperbarui atribut status pada objek spesifik di dalam array localStorage.
+# Journal Page (/journal)
+**Visual**: Dashboard layout as a data table.
+**Flow**:
+1. The table reads status from `localStorage` on load.
+2. Columns show: Date, Asset, Position Size, Risk ($), and Status.
+3. In the status column, there is a dropdown menu or three small buttons for each row: "Set Won", "Set Lost", "Delete".
+4. **Button Action**: Updates the status attribute on the specific object within the `localStorage` array.
 
-4. Footer Global
-   Komponen: Teks kecil di tengah bawah.
-   Isi: "Dibangun untuk TestSprite Hackathon. Bukan Saran Keuangan." Tidak ada tautan eksternal yang tidak berguna.
+# Global Footer
+**Component**: Small text at the bottom center.
+**Content**: "Built for TestSprite Hackathon. Not Financial Advice." No useless external links.
 
-Colout Palette
+# Color Palette
 
-1. Latar Belakang Global (Background):
-   Terang: bg-slate-50 (Abu-abu sangat terang, bersih)
-   Gelap: dark:bg-slate-900 (Biru keabu-abuan pekat, tidak terlalu hitam pekat agar mata tidak lelah)
+### Global Background
+- **Light**: `bg-slate-50` (Very light gray, clean)
+- **Dark**: `dark:bg-slate-900` (Deep gray-blue, not pitch black to reduce eye fatigue)
 
-2. Permukaan Kartu & Formulir (Surface):
-   Terang: bg-white border border-slate-200
-   Gelap: dark:bg-slate-800 dark:border-slate-700
+### Card & Form Surface
+- **Light**: `bg-white`, `border border-slate-200`
+- **Dark**: `dark:bg-slate-800`, `dark:border-slate-700`
 
-3. Teks Utama (Typography):
-   Terang: text-slate-900 (Judul) dan text-slate-600 (Label/Paragraf)
-   Gelap: dark:text-slate-50 (Judul) dan dark:text-slate-400 (Label/Paragraf)
+### Main Typography
+- **Light**: `text-slate-900` (Headings) and `text-slate-600` (Labels/Paragraphs)
+- **Dark**: `dark:text-slate-50` (Headings) and `dark:text-slate-400` (Labels/Paragraphs)
 
-4. Aksi Utama (Tombol Simpan/Hitung):
-   Terang: bg-blue-600 hover:bg-blue-700 text-white
-   Gelap: dark:bg-blue-500 dark:hover:bg-blue-600 dark:text-white
+### Primary Action (Save/Calculate Button)
+- **Light**: `bg-blue-600`, `hover:bg-blue-700`, `text-white`
+- **Dark**: `dark:bg-blue-500`, `dark:hover:bg-blue-600`, `dark:text-white`
 
-5. Indikator Keberhasilan (Status Menang / Rasio Positif):
-   Terang: text-emerald-700 bg-emerald-100 (Teks hijau gelap di atas latar belakang hijau pucat)
-   Gelap: dark:text-emerald-400 dark:bg-emerald-900/30
+### Success Indicator (Won Status / Positive Ratio)
+- **Light**: `text-emerald-700`, `bg-emerald-100` (Dark green text on pale green background)
+- **Dark**: `dark:text-emerald-400`, `dark:bg-emerald-900/30`
 
-6. Indikator Risiko/Kerugian (Status Kalah / Peringatan Stop Loss):
-   Terang: text-rose-700 bg-rose-100
-   Gelap: dark:text-rose-400 dark:bg-rose-900/30
+### Risk/Loss Indicator (Lost Status / Stop Loss Warning)
+- **Light**: `text-rose-700`, `bg-rose-100`
+- **Dark**: `dark:text-rose-400`, `dark:bg-rose-900/30`

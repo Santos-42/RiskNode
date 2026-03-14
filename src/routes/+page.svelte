@@ -1,39 +1,41 @@
 <script lang="ts">
     import { journalStore } from '$lib/store';
     
-    let pasangan_aset: string = $state('');
-    let modal: number | null = $state(null);
-    let risiko: number | null = $state(null);
-    let harga_masuk: number | null = $state(null);
-    let harga_berhenti_rugi: number | null = $state(null);
+    let asset_pair: string = $state('');
+    let capital: number | null = $state(null);
+    let risk: number | null = $state(null);
+    let entry_price: number | null = $state(null);
+    let stop_loss: number | null = $state(null);
+    let showSuccess = $state(false);
 
     let hasValues = $derived(
-        typeof modal === 'number' && !isNaN(modal) &&
-        typeof risiko === 'number' && !isNaN(risiko) &&
-        typeof harga_masuk === 'number' && !isNaN(harga_masuk) &&
-        typeof harga_berhenti_rugi === 'number' && !isNaN(harga_berhenti_rugi)
+        typeof capital === 'number' && !isNaN(capital) &&
+        typeof risk === 'number' && !isNaN(risk) &&
+        typeof entry_price === 'number' && !isNaN(entry_price) &&
+        typeof stop_loss === 'number' && !isNaN(stop_loss)
     );
 
     let isValid = $derived(hasValues && 
-        modal! >= 0 && 
-        risiko! >= 0 && risiko! <= 5 && 
-        harga_masuk! >= 0 && 
-        harga_berhenti_rugi! >= 0 && 
-        harga_masuk !== harga_berhenti_rugi
+        capital! >= 0 && 
+        risk! >= 0 && risk! <= 5 && 
+        entry_price! >= 0 && 
+        stop_loss! >= 0 && 
+        entry_price !== stop_loss
     );
 
     let errorMsg = $derived.by(() => {
         if (hasValues) {
-            if (risiko! > 5) return 'Persentase Risiko tidak boleh di atas 5%.';
-            else if (harga_masuk === harga_berhenti_rugi) return 'Jarak harga tidak valid';
-            else if (modal! < 0 || risiko! < 0 || harga_masuk! < 0 || harga_berhenti_rugi! < 0) return 'Nilai tidak boleh negatif.';
+            if (risk! > 5) return 'Risk percentage cannot exceed 5%.';
+            else if (entry_price === stop_loss) return 'Invalid price distance';
+            else if (capital! < 0 || risk! < 0 || entry_price! < 0 || stop_loss! < 0) return 'Values cannot be negative.';
             return '';
         }
         return '';
     });
 
-    let positionSize = $derived(isValid ? (modal! * (risiko! / 100)) / Math.abs(harga_masuk! - harga_berhenti_rugi!) : 0);
-    let estimatedValue = $derived(isValid ? positionSize * harga_masuk! : 0);
+    let positionSize = $derived(isValid ? (capital! * (risk! / 100)) / Math.abs(entry_price! - stop_loss!) : 0);
+    let riskAmount = $derived(isValid ? capital! * (risk! / 100) : 0); // Static 1:2 ratio
+    let profitAmount = $derived(riskAmount * 2); 
 
     function handleSave() {
         if (!isValid || !hasValues) return;
@@ -41,21 +43,23 @@
         journalStore.addEntry({
             id: crypto.randomUUID(),
             tanggal: new Date().toISOString(),
-            pasangan_aset: pasangan_aset || 'Unknown',
-            modal: modal!,
-            risiko: risiko!,
-            harga_masuk: harga_masuk!,
-            harga_berhenti_rugi: harga_berhenti_rugi!,
+            pasangan_aset: asset_pair || 'Unknown',
+            modal: capital!,
+            risiko: risk!,
+            harga_masuk: entry_price!,
+            harga_berhenti_rugi: stop_loss!,
             ukuran_posisi: positionSize,
-            status: 'Terbuka'
+            status: 'Open'
         });
         
-        alert('Disimpan ke jurnal!');
-        pasangan_aset = '';
-        modal = null;
-        risiko = null;
-        harga_masuk = null;
-        harga_berhenti_rugi = null;
+        showSuccess = true;
+        setTimeout(() => showSuccess = false, 3000);
+        
+        asset_pair = '';
+        capital = null;
+        risk = null;
+        entry_price = null;
+        stop_loss = null;
     }
 </script>
 
@@ -64,7 +68,7 @@
         <!-- Page Title -->
         <div class="mb-8 text-center sm:text-left">
             <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-2">Risk Calculator</h2>
-            <p class="text-slate-600 dark:text-slate-400">Hitung ukuran posisi Anda berdasarkan toleransi risiko yang telah ditetapkan.</p>
+            <p class="text-slate-600 dark:text-slate-400">Calculate your position size based on set risk tolerance.</p>
         </div>
 
         <!-- Form Container -->
@@ -79,68 +83,85 @@
 
             <!-- Asset Pair -->
             <div class="flex flex-col gap-2">
-                <label for="pasangan_aset" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Asset Pair (Opsional)</label>
+                <label for="asset_pair" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Asset Pair (Optional)</label>
                 <div class="relative">
                     <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">currency_bitcoin</span>
-                    <input id="pasangan_aset" bind:value={pasangan_aset} class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white placeholder:text-slate-400" placeholder="e.g. BTC/USDT" type="text" />
+                    <input id="asset_pair" bind:value={asset_pair} class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white placeholder:text-slate-400" placeholder="e.g. BTC/USDT" type="text" />
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- Modal -->
+                <!-- Capital -->
                 <div class="flex flex-col gap-2">
-                    <label for="modal" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Modal (USDT)</label>
+                    <label for="capital" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Capital (USDT)</label>
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">account_balance_wallet</span>
-                        <input id="modal" bind:value={modal} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="1000" type="number" />
+                        <input id="capital" bind:value={capital} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="1000" type="number" />
                     </div>
                 </div>
 
-                <!-- Risiko % -->
+                <!-- Risk % -->
                 <div class="flex flex-col gap-2">
-                    <label for="risiko" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Risiko (%)</label>
+                    <label for="risk" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Risk (%)</label>
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">warning</span>
-                        <input id="risiko" bind:value={risiko} min="0" max="5" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="1" type="number" />
+                        <input id="risk" bind:value={risk} min="0" max="5" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="1" type="number" />
                     </div>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- Harga Masuk -->
+                <!-- Entry Price -->
                 <div class="flex flex-col gap-2">
-                    <label for="harga_masuk" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Harga Masuk</label>
+                    <label for="entry_price" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Entry Price</label>
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">login</span>
-                        <input id="harga_masuk" bind:value={harga_masuk} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="50000" type="number" />
+                        <input id="entry_price" bind:value={entry_price} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="50000" type="number" />
                     </div>
                 </div>
 
-                <!-- Harga Berhenti Rugi -->
+                <!-- Stop Loss -->
                 <div class="flex flex-col gap-2">
-                    <label for="harga_berhenti_rugi" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Harga Berhenti Rugi (Stop Loss)</label>
+                    <label for="stop_loss" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Stop Loss Price</label>
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">cancel</span>
-                        <input id="harga_berhenti_rugi" bind:value={harga_berhenti_rugi} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="48000" type="number" />
+                        <input id="stop_loss" bind:value={stop_loss} min="0" step="any" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="48000" type="number" />
                     </div>
                 </div>
             </div>
 
             <!-- Result Card -->
             <div class="mt-8 p-6 bg-primary/10 border border-primary/30 rounded-xl flex flex-col items-center justify-center text-center">
-                <p class="text-sm font-medium text-primary uppercase tracking-widest mb-2">Ukuran Posisi yang Diizinkan</p>
+                <p class="text-sm font-medium text-primary uppercase tracking-widest mb-2">Allowed Position Size</p>
                 <div class="flex items-baseline gap-2">
                     <span class="text-5xl font-black text-slate-900 dark:text-white tracking-tighter">{positionSize.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })}</span>
                     <span class="text-xl font-bold text-slate-500 dark:text-slate-400">Units</span>
                 </div>
-                <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Estimasi nilai posisi: <span class="font-mono">${estimatedValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></p>
+                
+                <div class="mt-3 flex items-center gap-4 text-sm bg-white dark:bg-slate-800 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <div class="flex flex-col text-left">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Total Risk</span>
+                        <span class="font-black text-rose-500">${riskAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    </div>
+                    <div class="w-px h-6 bg-slate-200 dark:bg-slate-700"></div>
+                    <div class="flex flex-col text-left">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Target Profit (1:2)</span>
+                        <span class="font-black text-emerald-500">${profitAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Submit Button -->
             <button disabled={!isValid} type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
                 <span class="material-symbols-outlined">save</span>
-                Simpan ke Jurnal
+                Save to Journal
             </button>
         </form>
+
+        {#if showSuccess}
+            <div class="fixed bottom-4 right-4 bg-emerald-500 text-white px-6 py-3 rounded-lg shadow-xl font-bold animate-pulse z-[100]">
+                Entry successfully saved!
+            </div>
+        {/if}
     </div>
 </main>
