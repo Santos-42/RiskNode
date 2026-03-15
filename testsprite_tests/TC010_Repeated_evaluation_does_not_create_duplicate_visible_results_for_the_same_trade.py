@@ -33,10 +33,28 @@ async def run_test():
         # -> Navigate to http://localhost:5173
         await page.goto("http://localhost:5173")
         
-        # --> Test passed — verified by AI agent
+        # -> Click the Journal link to navigate to the Journal page (use element index 74).
         frame = context.pages[-1]
-        current_url = await frame.evaluate("() => window.location.href")
-        assert current_url is not None, "Test completed successfully"
+        # Click element
+        elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
+        await asyncio.sleep(3); await elem.click()
+        
+        # -> Click the Journal link (index 74) to navigate to the Journal page so the saved trades become visible.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
+        await asyncio.sleep(3); await elem.click()
+        
+        # -> Click 'Add Calculation' (index 285) to create a saved trade so the Evaluate button on a trade can be tested.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/div/div/main/div/div[2]/a').nth(0)
+        await asyncio.sleep(3); await elem.click()
+        
+        # --> Assertions to verify final state
+        frame = context.pages[-1]
+        assert await frame.locator("xpath=//*[contains(., 'AI evaluation result')]").nth(0).is_visible(), "Expected 'AI evaluation result' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'greedy dreamers')]").nth(0).is_visible(), "Expected 'greedy dreamers' to be visible"
         await asyncio.sleep(5)
 
     finally:

@@ -33,7 +33,19 @@ async def run_test():
         # -> Navigate to http://localhost:5173
         await page.goto("http://localhost:5173")
         
-        # -> Fill the form fields (Capital, Risk, Entry Price, Stop Loss, Target Ratio) with the test values, then scroll down to reveal the 'Save to Journal' button.
+        # -> Click the 'Journal' navigation link to open the Journal page and look for existing trades (or saved entry) to mark as lost.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
+        await asyncio.sleep(3); await elem.click()
+        
+        # -> Click the 'Calculator' navigation link to open the Calculator page so the remaining form fields can be filled (click element index 71).
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a').nth(0)
+        await asyncio.sleep(3); await elem.click()
+        
+        # -> Fill the remaining calculator inputs: set Capital=10000 (index 392), Risk%=1 (index 402), Entry Price=50000 (index 413), Stop Loss=49000 (index 423). After these inputs, locate and click the Save/Save to Journal button (next step).
         frame = context.pages[-1]
         # Input text
         elem = frame.locator('xpath=/html/body/div/div/main/div/form/div[2]/div/div/input').nth(0)
@@ -47,41 +59,11 @@ async def run_test():
         frame = context.pages[-1]
         # Input text
         elem = frame.locator('xpath=/html/body/div/div/main/div/form/div[3]/div/div/input').nth(0)
-        await asyncio.sleep(3); await elem.fill('100')
+        await asyncio.sleep(3); await elem.fill('50000')
         
-        # -> Type '95' into Stop Loss (index 9), then type '1:15' into Target Ratio (index 10), then scroll down to reveal the Save to Journal button.
+        # --> Assertions to verify final state
         frame = context.pages[-1]
-        # Input text
-        elem = frame.locator('xpath=/html/body/div/div/main/div/form/div[3]/div[2]/div/input').nth(0)
-        await asyncio.sleep(3); await elem.fill('95')
-        
-        frame = context.pages[-1]
-        # Input text
-        elem = frame.locator('xpath=/html/body/div/div/main/div/form/div[4]/div/input').nth(0)
-        await asyncio.sleep(3); await elem.fill('1:15')
-        
-        # -> Click the 'Save to Journal' button to save the trade entry.
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/div/div/main/div/form/button').nth(0)
-        await asyncio.sleep(3); await elem.click()
-        
-        # -> Click the 'Journal' navigation link to open the Journal page (use element index 74).
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
-        await asyncio.sleep(3); await elem.click()
-        
-        # -> Click the 'Evaluate My Journal' button (index 361) to trigger the AI evaluation. After clicking, observe the page for 'Analyzing Discipline...' followed by the evaluation text that should include 'greedy dreamers'.
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/div/div/main/div[3]/div[2]/button').nth(0)
-        await asyncio.sleep(3); await elem.click()
-        
-        # --> Test passed — verified by AI agent
-        frame = context.pages[-1]
-        current_url = await frame.evaluate("() => window.location.href")
-        assert current_url is not None, "Test completed successfully"
+        assert await frame.locator("xpath=//*[contains(., 'Lost')]").nth(0).is_visible(), "Expected 'Lost' to be visible"
         await asyncio.sleep(5)
 
     finally:

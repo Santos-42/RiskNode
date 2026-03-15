@@ -33,10 +33,9 @@ async def run_test():
         # -> Navigate to http://localhost:5173
         await page.goto("http://localhost:5173")
         
-        # --> Test passed — verified by AI agent
+        # --> Assertions to verify final state
         frame = context.pages[-1]
-        current_url = await frame.evaluate("() => window.location.href")
-        assert current_url is not None, "Test completed successfully"
+        assert await frame.locator("xpath=//*[contains(., 'Won')]").nth(0).is_visible(), "Expected 'Won' to be visible"
         await asyncio.sleep(5)
 
     finally:

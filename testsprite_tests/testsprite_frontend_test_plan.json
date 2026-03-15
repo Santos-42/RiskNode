@@ -1,9 +1,9 @@
 [
   {
     "id": "TC001",
-    "title": "Save a valid trade to the journal from the Risk Calculator",
-    "description": "Verifies a user can enter valid inputs and save a new trade entry that appears in the Journal.",
-    "category": "Risk Calculator",
+    "title": "Calculate target profit updates when inputs are valid and target ratio changes",
+    "description": "Verifies that entering valid risk parameters updates Target Profit to the expected value when Target Ratio is modified.",
+    "category": "Risk Calculation",
     "priority": "High",
     "steps": [
       {
@@ -11,146 +11,298 @@
         "description": "Navigate to /"
       },
       {
-        "type": "assertion",
-        "description": "Verify page title contains \"Risk\""
+        "type": "action",
+        "description": "Fill \"Capital\" input with \"10000\""
       },
       {
         "type": "action",
-        "description": "Type \"BTC/USDT\" into the Asset Pair input field"
+        "description": "Fill \"Risk %\" input with \"1\""
       },
       {
         "type": "action",
-        "description": "Type \"1000\" into the Capital input field (data-testid=\"input-modal\")"
+        "description": "Fill \"Entry Price\" input with \"100\""
       },
       {
         "type": "action",
-        "description": "Type \"2\" into the Risk % input field (data-testid=\"input-risiko\")"
+        "description": "Fill \"Stop Loss\" input with \"90\""
       },
       {
         "type": "action",
-        "description": "Type \"50000\" into the Entry Price input field (data-testid=\"input-entry\")"
-      },
-      {
-        "type": "action",
-        "description": "Type \"49000\" into the Stop Loss Price input field (data-testid=\"input-stoploss\")"
-      },
-      {
-        "type": "action",
-        "description": "Click \"Save to Journal\" button (data-testid=\"btn-calculate\")"
-      },
-      {
-        "type": "action",
-        "description": "Click on the \"Journal\" navigation link"
+        "description": "Fill \"Target Ratio (1:X)\" input with \"4\""
       },
       {
         "type": "assertion",
-        "description": "Verify URL contains \"/journal\""
-      },
-      {
-        "type": "assertion",
-        "description": "Verify text \"BTC/USDT\" is visible"
+        "description": "Verify text \"400\" is visible in the Target Profit result"
       }
     ]
   },
   {
     "id": "TC002",
-    "title": "Save works at boundary value Risk % = 5% with valid prices",
-    "description": "Verifies a trade can be saved when risk is exactly at the allowed maximum (5%).",
-    "category": "Risk Calculator",
-    "priority": "Medium",
+    "title": "Save a completed trade from the calculator and verify it appears in the Journal",
+    "description": "Verifies a user can create a trade on the calculator, save it, and then see the new trade row in the journal list.",
+    "category": "Trade Journaling",
+    "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to /"
+        "description": "Navigate to \"/\""
       },
       {
         "type": "action",
-        "description": "Type \"ETH/USDT\" into the Asset Pair input field"
+        "description": "Type \"BTCUSD\" into the \"Asset Pair\" input"
       },
       {
         "type": "action",
-        "description": "Type \"2000\" into the Capital input field (data-testid=\"input-modal\")"
+        "description": "Type \"10000\" into the \"Capital\" input"
       },
       {
         "type": "action",
-        "description": "Type \"5\" into the Risk % input field (data-testid=\"input-risiko\")"
+        "description": "Type \"1\" into the \"Risk %\" input"
       },
       {
         "type": "action",
-        "description": "Type \"3000\" into the Entry Price input field (data-testid=\"input-entry\")"
+        "description": "Type \"50000\" into the \"Entry Price\" input"
       },
       {
         "type": "action",
-        "description": "Type \"2850\" into the Stop Loss Price input field (data-testid=\"input-stoploss\")"
+        "description": "Type \"49000\" into the \"Stop Loss\" input"
       },
       {
         "type": "action",
-        "description": "Click \"Save to Journal\" button (data-testid=\"btn-calculate\")"
+        "description": "Click the \"Save\" button"
       },
       {
         "type": "action",
-        "description": "Click on the \"Journal\" navigation link"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify text \"ETH/USDT\" is visible"
+        "description": "Click the \"Journal\" navigation link"
       }
     ]
   },
   {
     "id": "TC003",
-    "title": "Save a trade with a decimal Risk % and decimal prices",
-    "description": "Verifies the calculator accepts decimal inputs and still allows saving a valid trade.",
-    "category": "Risk Calculator",
-    "priority": "Medium",
+    "title": "Saved trade row is visible in Journal after navigating from calculator",
+    "description": "Verifies that after saving a trade, the journal visibly contains a new trade row with the expected asset pair text.",
+    "category": "Trade Journaling",
+    "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to /"
+        "description": "Navigate to \"/\""
       },
       {
         "type": "action",
-        "description": "Type \"SOL/USDT\" into the Asset Pair input field"
+        "description": "Type \"BTCUSD\" into the \"Asset Pair\" input"
       },
       {
         "type": "action",
-        "description": "Type \"1500.50\" into the Capital input field (data-testid=\"input-modal\")"
+        "description": "Type \"10000\" into the \"Capital\" input"
       },
       {
         "type": "action",
-        "description": "Type \"1.5\" into the Risk % input field (data-testid=\"input-risiko\")"
+        "description": "Type \"1\" into the \"Risk %\" input"
       },
       {
         "type": "action",
-        "description": "Type \"123.45\" into the Entry Price input field (data-testid=\"input-entry\")"
+        "description": "Type \"50000\" into the \"Entry Price\" input"
       },
       {
         "type": "action",
-        "description": "Type \"120.10\" into the Stop Loss Price input field (data-testid=\"input-stoploss\")"
+        "description": "Type \"49000\" into the \"Stop Loss\" input"
       },
       {
         "type": "action",
-        "description": "Type \"2\" into the Target Ratio input field (data-testid=\"input-ratio\")"
+        "description": "Click the \"Save\" button"
       },
       {
         "type": "action",
-        "description": "Click \"Save to Journal\" button (data-testid=\"btn-calculate\")"
-      },
-      {
-        "type": "action",
-        "description": "Click on the \"Journal\" navigation link"
+        "description": "Click the \"Journal\" navigation link"
       },
       {
         "type": "assertion",
-        "description": "Verify text \"SOL/USDT\" is visible"
+        "description": "Verify text \"BTCUSD\" is visible"
       }
     ]
   },
   {
     "id": "TC004",
-    "title": "View journal entries list on /journal when entries exist",
-    "description": "Verifies that the Trading Journal page displays a list of existing trade entries.",
-    "category": "Trading Journal",
+    "title": "Prevent saving a trade when Asset Pair is empty",
+    "description": "Verifies validation prevents saving when the Asset Pair field is blank.",
+    "category": "Trade Journaling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Asset\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"required\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Mark a trade as Won updates the row status to Won",
+    "description": "Verifies a user can mark a journal trade as won and sees a visible status change on that row.",
+    "category": "Trade Journaling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"BTCUSD\" into the \"Asset Pair\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"10000\" into the \"Capital\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"1\" into the \"Risk %\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"50000\" into the \"Entry Price\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"49000\" into the \"Stop Loss\" input"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Journal\" navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Mark as Won\" on the trade row for \"BTCUSD\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Won\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Mark a trade as Lost updates the row status to Lost",
+    "description": "Verifies a user can mark a journal trade as lost and sees a visible status change on that row.",
+    "category": "Trade Journaling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"BTCUSD\" into the \"Asset Pair\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"10000\" into the \"Capital\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"1\" into the \"Risk %\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"50000\" into the \"Entry Price\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"49000\" into the \"Stop Loss\" input"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Journal\" navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Mark as Lost\" on the trade row for \"BTCUSD\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Lost\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Delete a specific trade row removes it from the journal view",
+    "description": "Verifies a user can delete one trade and the corresponding row is no longer visible in the journal list.",
+    "category": "Trade Journaling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"BTCUSD\" into the \"Asset Pair\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"10000\" into the \"Capital\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"1\" into the \"Risk %\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"50000\" into the \"Entry Price\" input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"49000\" into the \"Stop Loss\" input"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Save\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Journal\" navigation link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"BTCUSD\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Delete\" on the trade row for \"BTCUSD\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"BTCUSD\" is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Evaluate a high target-ratio trade and display AI roast inline",
+    "description": "Verifies that evaluating a trade with an extreme target ratio shows an AI roast result in the UI for that trade.",
+    "category": "AI Risk Evaluator (Roast)",
     "priority": "High",
     "steps": [
       {
@@ -162,160 +314,49 @@
         "description": "Verify page title contains \"Journal\""
       },
       {
-        "type": "assertion",
-        "description": "Verify element \"Trade entries list\" is visible"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Winning\" button is visible on at least one entry"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Losing\" button is visible on at least one entry"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Delete\" icon is visible on at least one entry"
-      }
-    ]
-  },
-  {
-    "id": "TC005",
-    "title": "Mark a trade as Won using the Winning button",
-    "description": "Verifies a selected entry can be marked as Won and the UI reflects the updated status.",
-    "category": "Trading Journal",
-    "priority": "High",
-    "steps": [
-      {
         "type": "action",
-        "description": "Navigate to /journal"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Trade entries list\" is visible"
+        "description": "Scroll to a saved trade showing Target Ratio set to \"15\""
       },
       {
         "type": "action",
-        "description": "Click \"Winning\" button (data-testid=\"btn-won\") on the first visible trade entry"
+        "description": "Click Evaluate Button (btn-evaluate) on that trade"
       },
       {
         "type": "assertion",
-        "description": "Verify text \"Won\" is visible within the same trade entry"
+        "description": "Verify text \"greedy dreamers\" is visible within the evaluation result area for that same trade"
       },
       {
         "type": "assertion",
-        "description": "Verify element \"Winning\" button (data-testid=\"btn-won\") is visible on the page"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Losing\" button (data-testid=\"btn-lost\") is visible on the page"
-      }
-    ]
-  },
-  {
-    "id": "TC006",
-    "title": "Mark a trade as Lost using the Losing button",
-    "description": "Verifies a selected entry can be marked as Lost and the UI reflects the updated status.",
-    "category": "Trading Journal",
-    "priority": "High",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to /journal"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Trade entries list\" is visible"
-      },
-      {
-        "type": "action",
-        "description": "Click \"Losing\" button (data-testid=\"btn-lost\") on the first visible trade entry"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify text \"Lost\" is visible within the same trade entry"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Winning\" button (data-testid=\"btn-won\") is visible on the page"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Delete\" icon (data-testid=\"btn-delete\") is visible on the page"
-      }
-    ]
-  },
-  {
-    "id": "TC007",
-    "title": "Delete a single trade entry using the Delete icon",
-    "description": "Verifies that a trade entry can be removed from the journal list via the Delete control.",
-    "category": "Trading Journal",
-    "priority": "High",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to /journal"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Trade entries list\" is visible"
-      },
-      {
-        "type": "action",
-        "description": "Click Delete icon (data-testid=\"btn-delete\") on the first visible trade entry"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Trade entries list\" is visible"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify text \"No entries\" is visible OR at least one trade entry remains visible"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Delete All\" (data-testid=\"btn-delete-all\") is visible"
-      }
-    ]
-  },
-  {
-    "id": "TC008",
-    "title": "Status change persists after page reload (Won)",
-    "description": "Verifies that after marking an entry as Won, reloading /journal still shows the Won status (persistence).",
-    "category": "Trading Journal",
-    "priority": "Medium",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to /journal"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify element \"Trade entries list\" is visible"
-      },
-      {
-        "type": "action",
-        "description": "Click \"Winning\" button (data-testid=\"btn-won\") on the first visible trade entry"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify text \"Won\" is visible within the same trade entry"
-      },
-      {
-        "type": "action",
-        "description": "Navigate to /journal"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify text \"Won\" is visible on the page"
+        "description": "Verify element \"AI evaluation result\" is visible for that same trade"
       }
     ]
   },
   {
     "id": "TC009",
-    "title": "Status change persists after page reload (Lost)",
-    "description": "Verifies that after marking an entry as Lost, reloading /journal still shows the Lost status (persistence).",
-    "category": "Trading Journal",
+    "title": "Evaluate button behavior when there are no saved trades",
+    "description": "Verifies the UI prevents evaluation when the journal has no saved trades by showing a message or disabling evaluation.",
+    "category": "AI Risk Evaluator (Roast)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No trades to evaluate\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Evaluate Button (btn-evaluate)\" is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Repeated evaluation does not create duplicate visible results for the same trade",
+    "description": "Verifies that clicking Evaluate multiple times on the same trade does not show multiple stacked/duplicated roast outputs.",
+    "category": "AI Risk Evaluator (Roast)",
     "priority": "Medium",
     "steps": [
       {
@@ -323,77 +364,86 @@
         "description": "Navigate to /journal"
       },
       {
-        "type": "assertion",
-        "description": "Verify element \"Trade entries list\" is visible"
+        "type": "action",
+        "description": "Scroll to a saved trade"
       },
       {
         "type": "action",
-        "description": "Click \"Losing\" button (data-testid=\"btn-lost\") on the first visible trade entry"
+        "description": "Click Evaluate Button (btn-evaluate) on that trade"
       },
       {
         "type": "assertion",
-        "description": "Verify text \"Lost\" is visible within the same trade entry"
+        "description": "Verify element \"AI evaluation result\" is visible for that trade"
       },
       {
         "type": "action",
-        "description": "Navigate to /journal"
+        "description": "Click Evaluate Button (btn-evaluate) on that same trade again"
       },
       {
         "type": "assertion",
-        "description": "Verify text \"Lost\" is visible on the page"
+        "description": "Verify text \"greedy dreamers\" is visible within the evaluation result area for that same trade"
       }
     ]
   },
   {
-    "id": "TC010",
-    "title": "Create an unrealistic trade, then evaluate and expect specific roast phrase",
-    "description": "Verifies that after saving an unrealistic risk/reward trade to the journal, the AI evaluation returns feedback that includes the phrase \"greedy dreamers\".",
+    "id": "TC011",
+    "title": "Evaluation result stays associated with the correct trade when multiple trades exist",
+    "description": "Verifies the roast output renders inline on the trade that was evaluated and not on a different trade row/card.",
     "category": "AI Risk Evaluator (Roast)",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to /"
+        "description": "Navigate to /journal"
       },
       {
         "type": "action",
-        "description": "Type \"10000\" into \"Capital\" input field"
+        "description": "Scroll to a saved trade showing Target Ratio set to \"15\""
       },
       {
         "type": "action",
-        "description": "Type \"1\" into \"Risk %\" input field"
-      },
-      {
-        "type": "action",
-        "description": "Type \"100\" into \"Entry Price\" input field"
-      },
-      {
-        "type": "action",
-        "description": "Type \"95\" into \"Stop Loss Price\" input field"
-      },
-      {
-        "type": "action",
-        "description": "Type \"1:15\" into \"Target Ratio\" input field"
-      },
-      {
-        "type": "action",
-        "description": "Click \"Save to Journal\" button"
-      },
-      {
-        "type": "action",
-        "description": "Click \"Journal\" navigation link"
-      },
-      {
-        "type": "action",
-        "description": "Click \"Evaluate My Journal\" button"
+        "description": "Click Evaluate Button (btn-evaluate) on that trade"
       },
       {
         "type": "assertion",
-        "description": "Verify text \"Analyzing Discipline...\" is visible"
+        "description": "Verify text \"greedy dreamers\" is visible within the evaluation result area for that trade"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to a different saved trade (one that is not the evaluated trade)"
       },
       {
         "type": "assertion",
-        "description": "Verify text \"greedy dreamers\" is visible"
+        "description": "Verify element \"AI evaluation result\" is not visible for the different trade"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Evaluate control provides immediate user feedback while waiting for AI response",
+    "description": "Verifies the UI indicates evaluation is in progress after clicking Evaluate (e.g., loading text/spinner) before the final result is displayed.",
+    "category": "AI Risk Evaluator (Roast)",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /journal"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to a saved trade"
+      },
+      {
+        "type": "action",
+        "description": "Click Evaluate Button (btn-evaluate) on that trade"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Evaluating\" is visible on or near the Evaluate area for that trade"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"AI evaluation result\" is visible for that trade"
       }
     ]
   }

@@ -33,13 +33,13 @@ async def run_test():
         # -> Navigate to http://localhost:5173
         await page.goto("http://localhost:5173")
         
-        # -> Click the 'Journal' navigation link to open the Trading Journal page (use interactive element index 74).
+        # -> Click the 'Journal' navigation link to go to the /journal page (use element index 74).
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
         await asyncio.sleep(3); await elem.click()
         
-        # -> Click the 'Journal' navigation link again to open the Trading Journal page, then wait for the page to load so assertions can be run.
+        # -> Click the 'Journal' navigation link (index 74) again to attempt to navigate to the /journal page.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
@@ -47,11 +47,8 @@ async def run_test():
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert await frame.locator("xpath=//*[contains(., 'Journal')]").nth(0).is_visible(), "Expected 'Journal' to be visible"
-        assert await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible(), "Expected 'Trade entries list' to be visible"
-        assert await frame.locator("xpath=//*[contains(., 'Winning')]").nth(0).is_visible(), "Expected 'Winning' to be visible"
-        assert await frame.locator("xpath=//*[contains(., 'Losing')]").nth(0).is_visible(), "Expected 'Losing' to be visible"
-        assert await frame.locator("xpath=//*[contains(., 'Delete')]").nth(0).is_visible(), "Expected 'Delete' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'greedy dreamers')]").nth(0).is_visible(), "Expected 'greedy dreamers' to be visible"
+        assert not await frame.locator("xpath=//*[contains(., 'AI evaluation result')]").nth(0).is_visible(), "Expected 'AI evaluation result' to NOT be visible"
         await asyncio.sleep(5)
 
     finally:

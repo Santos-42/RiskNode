@@ -33,30 +33,35 @@ async def run_test():
         # -> Navigate to http://localhost:5173
         await page.goto("http://localhost:5173")
         
-        # -> Click the 'Journal' link (element index 74) to navigate to the /journal page.
+        # -> Click the 'Journal' link in the top navigation to navigate to /journal and load the Journal page.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
         await asyncio.sleep(3); await elem.click()
         
-        # -> Click the 'Journal' link (index 71) to navigate to the /journal page, then check for the Trade entries list element.
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a').nth(0)
-        await asyncio.sleep(3); await elem.click()
-        
-        # -> Click the 'Journal' link (interactive element index 74) to navigate to the /journal page, then check for the Trade entries list element being visible.
+        # -> Click the 'Journal' link (element index 74) to navigate to /journal and load the Journal page.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
         await asyncio.sleep(3); await elem.click()
+        
+        # -> Click 'Add Calculation' (element index 285) to open the add-trade form so a trade with Target Ratio=15 can be created.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/div/div/main/div/div[2]/a').nth(0)
+        await asyncio.sleep(3); await elem.click()
+        
+        # -> Set Target Ratio to 15 in the open add-trade form and scroll down to reveal the 'Save to Journal' button so the trade can be saved.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/div/div/main/div/form/div[4]/div/input').nth(0)
+        await asyncio.sleep(3); await elem.fill('15')
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible(), "Expected 'Trade entries list' to be visible"
-        assert await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible(), "Expected 'Trade entries list' to be visible"
-        assert (await frame.locator("xpath=//*[contains(., 'No entries')]").nth(0).is_visible()) or (await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible()), "Expected 'No entries' to be visible OR at least one trade entry remains visible"
-        assert await frame.locator("xpath=//*[contains(., 'Delete All')]").nth(0).is_visible(), "Expected 'Delete All' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Journal')]").nth(0).is_visible(), "Expected 'Journal' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'greedy dreamers')]").nth(0).is_visible(), "Expected 'greedy dreamers' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'AI evaluation result')]").nth(0).is_visible(), "Expected 'AI evaluation result' to be visible"
         await asyncio.sleep(5)
 
     finally:

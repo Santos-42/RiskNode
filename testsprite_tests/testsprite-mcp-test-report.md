@@ -1,58 +1,46 @@
-# TestSprite AI Testing Report (Finalized)
+# TestSprite Regression Report - RiskNode
 
 ## 1️⃣ Document Metadata
 - **Project Name:** RiskNode
 - **Date:** 2026-03-15
-- **Prepared by:** Antigravity AI Assistant
-- **Test Environment:** Production Preview (Port 5173 / 4173)
+- **Test Set:** 10 Structured cases from `TC.md` (Self-expanded to 12)
+- **Status:** Complete
 
 ---
 
 ## 2️⃣ Requirement Validation Summary
 
-### Group: Risk Calculator Core Logic
-#### ✅ [TC001] Save a valid trade to the journal
-- **Status:** Passed
-- **Analysis:** Successfully verified that the calculator can load and handle a basic navigation flow. The environment correctly rendered the SvelteKit components.
+### 📊 Overall Status: 5/12 Passed (41.67%)
 
-#### ❌ [TC002] Save works at boundary value Risk % = 5%
-- **Status:** Failed
-- **Analysis:** The test failed to locate the "Save to Journal" button. This is likely due to the button being disabled if the input validation failed or a timing issue with the Svelte reactive state.
-
-#### ✅ [TC003] Save a trade with decimal Risk % and prices
-- **Status:** Passed
-- **Analysis:** Confirmed that the calculator correctly handles floating-point inputs and remains functional.
-
-### Group: Trading Journal Management
-#### ❌ [TC004] View journal entries list
-#### ❌ [TC005] Mark a trade as Won
-#### ❌ [TC006] Mark a trade as Lost
-#### ❌ [TC007] Delete a single trade entry
-#### ❌ [TC008] Status change persists (Won)
-#### ❌ [TC009] Status change persists (Lost)
-- **Status:** Failed
-- **Analysis:** These tests failed because they expected existing data in `localStorage`. Since each test runs in a fresh browser context, the entries created in TC001/TC003 were not available. The Journal page correctly showed "No trading records yet," leading to assertion failures on missing status/delete buttons.
-
-### Group: AI Risk Evaluator (Roast)
-#### ✅ [TC010] Create an unrealistic trade and expect roast
-- **Status:** Passed
-- **Analysis:** This test successfully filled the form (including the new `target_ratio` field), saved the trade, navigated to the journal, and triggered the AI roast. Crucially, it verified that the AI responded with the specific "greedy dreamers" phrase as implemented.
+| Test Case | Title | Status | Findings |
+|-----------|-------|--------|----------|
+| **TC001** | Real-time Calculation | ✅ Passed | Target Profit updates correctly when inputs and ratios change. |
+| **TC002** | Save to Journal (Functional) | ✅ Passed | Form submission commits trade and it appears in the list. |
+| **TC003** | Journal Row Visibility | ✅ Passed | Record persists after navigating between pages. |
+| **TC004** | Prevent Saving (Empty Asset) | ❌ Failed | Asset field is currently marked 'Optional' in UI, allowing saving when blank. |
+| **TC005** | Mark as Won | ❌ Failed | Environment isolation prevented locating the 'Save' button in this specific context. |
+| **TC006** | Mark as Lost | ❌ Failed | No records found in clean environment session. |
+| **TC007** | Record Removal | ✅ Passed | Row deletion and confirmation works correctly. |
+| **TC008** | AI "Greedy Dreamer" Roast | ❌ Failed | Test failed to create the trade with 1:15 ratio due to UI timeout/mis-click. |
+| **TC009** | Empty Journal Behavior | ✅ Passed | Evaluate button logic correctly handles empty lists. |
+| **TC010** | Repeated Evaluation | ❌ Failed | Navigation timing issues prevented verification. |
+| **TC011** | Multiple Trades Association | ❌ Failed | Lack of saved trades in testing context. |
+| **TC012** | Evaluation Feedback | ❌ Failed | No trade available to trigger evaluation. |
 
 ---
 
-## 3️⃣ Coverage & Matching Metrics
-- **Pass Rate:** 30% (3/10)
-- **Requirement Matching:** High (all core features covered by test plans)
-
-| Requirement Group | Total Tests | ✅ Passed | ❌ Failed |
-|-------------------|-------------|-----------|-----------|
-| Risk Calculator   | 3           | 2         | 1         |
-| Trading Journal   | 6           | 0         | 6         |
-| AI Evaluator      | 1           | 1         | 0         |
+## 3️⃣ Coverage & Metrics
+- **Core Calculator:** 100% (Passed sanity checks)
+- **Data Persistence:** 50% (Passed lifecycle checks, failed in cross-session isolation)
+- **AI Logic:** 20% (Verified empty state; failed functional roast due to data setup issues)
 
 ---
 
 ## 4️⃣ Key Gaps / Risks
-1. **Data Persistence in Testing:** The primary gap is that the current test suite does not seed data for the Journal tests. Tests that verify journal actions must first perform a "Save" action within the same session or have a mechanism to mock `localStorage`.
-2. **Brittle Selectors:** Some failures occurred because the generated tests used XPaths instead of the provided `data-testid` attributes, making them sensitive to minor UI changes.
-3. **AI Consistency:** While TC010 passed, AI responses can be non-deterministic. Future tests should use more robust fuzzy matching for roasts.
+1.  **Test Environment Data:** TestSprite runs browsers in isolated contexts. Future tests should include "Seeding" steps to ensure a trade exists before testing "Mark as Won/Lost".
+2.  **Asset Pair Validation:** `TC004` revealed that the Asset Pair is not strictly required in the UI, despite being a logical requirement.
+3.  **UI Element Robustness:** Some failures occurred because the "Save" button wasn't found immediately.
+4.  **AI Roast Verification:** While manually verified in previous steps, the automated test for the `1:15` ratio roast failed today due to form setup issues.
+
+---
+*Note: The project server was running on http://localhost:5173 during this run.*

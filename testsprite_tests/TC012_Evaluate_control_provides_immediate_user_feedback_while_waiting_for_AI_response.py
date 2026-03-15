@@ -33,13 +33,13 @@ async def run_test():
         # -> Navigate to http://localhost:5173
         await page.goto("http://localhost:5173")
         
-        # -> Click the 'Journal' link to navigate to /journal by using the on-page link (element index 74).
+        # -> Click the 'Journal' navigation link to open the Journal page (use element index 74).
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
         await asyncio.sleep(3); await elem.click()
         
-        # -> Click the 'Journal' link (element index 74) again to navigate to /journal and load the trade entries list.
+        # -> Click the 'Journal' navigation link (element index 74) to open the Journal page so the journal entries are visible.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
@@ -47,10 +47,8 @@ async def run_test():
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible(), "Expected 'Trade entries list' to be visible"
-        assert await frame.locator("xpath=//*[contains(., 'Lost')]").nth(0).is_visible(), "Expected 'Lost' to be visible"
-        assert await frame.locator("xpath=//*[contains(., 'Winning')]").nth(0).is_visible(), "Expected 'Winning' to be visible"
-        assert await frame.locator("xpath=//*[contains(., 'Delete')]").nth(0).is_visible(), "Expected 'Delete' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Evaluating')]").nth(0).is_visible(), "Expected 'Evaluating' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'AI evaluation result')]").nth(0).is_visible(), "Expected 'AI evaluation result' to be visible"
         await asyncio.sleep(5)
 
     finally:

@@ -8,12 +8,12 @@
     "projectName": "RiskNode",
     "projectPath": "d:\\Hackathons\\TestSprite - 16 March 2026\\RiskNode",
     "testIds": [],
-    "additionalInstruction": "Follow the instructions in TESTING.md. Ensure all 10 test cases are executed. The local server is running on port 5173. Verify that the \"greedy dreamer\" roast is triggered for unrealistic ratios.",
+    "additionalInstruction": "Follow the test cases defined in TC.md exactly. Test TC001-TC010. Use the data-testid attributes for element targeting. Verify TC009 (AI roast 'greedy dreamers') and the negative cases (TC002, TC003, TC004, TC006). Local server is on port 5173. Cap tests at 15 high-priority tests if server load is high, but prioritize the 10 from TC.md.",
     "serverMode": "production",
     "envs": {
       "API_KEY": "sk-user-aEuK5oyDsdAXPnqUKvuyAzcYUDh_Uo4UBNcxZIrLwEZW122mTo1QLm7kJn8DFhJZRtztHm9L78b4zQNLiKgXcs0Pb1gpS7KpfKm5b6VT5KsHcaFCP8s08wdtPlQPYYTZZkI"
     }
   },
-  "serverPort": 59358,
-  "proxy": "http://351ddb27-758a-486a-b130-82bba3ea4535:hSGQWnQh50Dgku8sVK0xEqgVWIDJQYVP@tun.testsprite.com:8080"
+  "serverPort": 50572,
+  "proxy": "http://ea4c45d0-8391-45e3-b56f-c79b82e9310b:BkpUdxu4fvMNlP3qKjH0NinxXApVQK7L@tun.testsprite.com:8080"
 }
