@@ -12,4 +12,4 @@ $$\text{Position Size} = \frac{\text{Total Capital} \times (\text{Risk Percentag
 
 # Storage Logic (Journal)
 Data is stored as an array of JSON objects in `localStorage`.
-**Object Structure**: `id` (unique), `date`, `asset_pair`, `capital`, `risk`, `entry_price`, `stop_loss_price`, `position_size`, `status` (Open, Won, Lost).
+**Object Structure**: `id` (unique), `date`, `asset_pair`, `capital`, `risk`, `entry_price`, `stop_loss_price`, `position_size`, `target_ratio`, `status` (Open, Won, Lost).

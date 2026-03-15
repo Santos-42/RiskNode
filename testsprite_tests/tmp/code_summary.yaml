@@ -4,62 +4,55 @@ tech_stack:
   - TypeScript
   - SvelteKit
   - Tailwind CSS
-  - Google Generative AI (Gemini 2.5 Flash)
+  - Google Generative AI (Gemini)
 routes:
   - path: /
     file: src/routes/+page.svelte
     auth_required: false
-    description: Risk Calculator and Position Sizer
+    description: Risk Calculator and Journal entry page
   - path: /journal
     file: src/routes/journal/+page.svelte
     auth_required: false
-    description: Trading Journal and AI Risk Evaluator
-  - path: /about
-    file: src/routes/about/+page.svelte
+    description: Trading Journal where entries are listed and evaluated by AI
+  - path: /api/roast
+    file: src/routes/api/roast/+server.ts
     auth_required: false
-    description: How It Works page
+    description: AI evaluation endpoint using Gemini
 features:
-  - name: Position Calculation
-    description: Calculate allowed position size based on capital, risk percentage (max 5%), and price distance.
+  - name: Risk Calculator
+    description: Calculates position size based on capital, risk %, entry price, and stop loss.
     files:
       - src/routes/+page.svelte
     entry_route: /
     user_interactions:
-      - Fill Asset Pair (optional)
-      - Fill Capital
-      - Fill Risk Percentage
-      - Fill Entry Price
-      - Fill Stop Loss Price
-      - Click "Save to Journal" button
-    api_calls: []
-    auth_required: false
+      - Fill Capital input field (data-testid="input-modal")
+      - Fill Risk % input field (data-testid="input-risiko")
+      - Fill Entry Price input field (data-testid="input-entry")
+      - Fill Stop Loss Price input field (data-testid="input-stoploss")
+      - Fill Target Ratio input field (data-testid="input-ratio")
+      - Click "Save to Journal" button (data-testid="btn-calculate")
   - name: Trading Journal
-    description: Record, view, and manage trading history stored in localStorage.
+    description: List and manage trading history stored in localStorage.
     files:
       - src/routes/journal/+page.svelte
       - src/lib/store.ts
     entry_route: /journal
     user_interactions:
-      - Mark trade as Won
-      - Mark trade as Lost
-      - Delete single entry
-      - Delete all entries
-    api_calls: []
-    auth_required: false
-  - name: AI Risk Evaluator
-    description: Get AI-powered feedback on trading history using Gemini.
+      - Navigate to journal page
+      - View trade entries
+      - Click "Winning" button (data-testid="btn-won") to mark trade as Won
+      - Click "Losing" button (data-testid="btn-lost") to mark trade as Lost
+      - Click Delete icon (data-testid="btn-delete") to remove an entry
+      - Click "Delete All" (data-testid="btn-delete-all") to clear journal
+  - name: AI Risk Evaluator (Roast)
+    description: Uses Gemini AI to evaluate trading discipline based on journal data.
     files:
-      - src/routes/journal/+page.svelte
       - src/routes/api/roast/+server.ts
     entry_route: /journal
     user_interactions:
-      - Click "Evaluate My Journal" button
-      - See AI feedback message
+      - Click "Evaluate My Journal" button (data-testid="btn-roast")
+      - See AI roast feedback message
     api_calls:
       - method: POST
         endpoint: /api/roast
-    auth_required: false
-known_limitations:
-  - issue: Local-only storage
-    location: src/lib/store.ts
-    impact: Data is lost if browser cache/localStorage is cleared.
+known_limitations: []

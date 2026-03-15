@@ -1237,14 +1237,11 @@ body {
             <li><span class="coverage-highlight">0/0</span> of tests passed</li>
             <li><span class="coverage-highlight">Key gaps / risks:</span>
             
-              <blockquote>
-<p>[!TIP]
-<strong>Logic Verification</strong>: The passing of TC001 is the most critical result, as it verifies the core business logic described in the PRD.
-[!IMPORTANT]
-<strong>Implementation Consistency</strong>: Manual code audit confirms that all requested <code>data-testid</code> attributes (e.g., <code>btn-roast</code>, <code>input-modal</code>, <code>btn-won</code>) are correctly implemented in the source files, despite the automation agent's reported difficulties.</p>
-</blockquote>
-<hr>
-<p><em>Verified via TestSprite Pipeline (13 cases generated).</em></p>
+              <ol>
+<li><strong>Data Persistence in Testing:</strong> The primary gap is that the current test suite does not seed data for the Journal tests. Tests that verify journal actions must first perform a &quot;Save&quot; action within the same session or have a mechanism to mock <code>localStorage</code>.</li>
+<li><strong>Brittle Selectors:</strong> Some failures occurred because the generated tests used XPaths instead of the provided <code>data-testid</code> attributes, making them sensitive to minor UI changes.</li>
+<li><strong>AI Consistency:</strong> While TC010 passed, AI responses can be non-deterministic. Future tests should use more robust fuzzy matching for roasts.</li>
+</ol>
 
             </li>
 </ul>
@@ -1269,7 +1266,7 @@ body {
           <div class="table-rows">
             
             <div class="table-row">
-              <div class="table-cell"><span class="text-body">📊 Performance Overview</span></div>
+              <div class="table-cell"><span class="text-body">Group: Risk Calculator Core Logic</span></div>
               <div class="table-cell"><span class="text-body">0</span></div>
               <div class="table-cell"><span class="text-body">0</span></div>
               <div class="table-cell"><span class="text-body">0</span></div>
@@ -1277,7 +1274,7 @@ body {
         
 
             <div class="table-row">
-              <div class="table-cell"><span class="text-body">📝 Verified Successes</span></div>
+              <div class="table-cell"><span class="text-body">Group: Trading Journal Management</span></div>
               <div class="table-cell"><span class="text-body">0</span></div>
               <div class="table-cell"><span class="text-body">0</span></div>
               <div class="table-cell"><span class="text-body">0</span></div>
@@ -1285,7 +1282,7 @@ body {
         
 
             <div class="table-row">
-              <div class="table-cell"><span class="text-body">📝 Key Findings / Failures Analysis</span></div>
+              <div class="table-cell"><span class="text-body">Group: AI Risk Evaluator (Roast)</span></div>
               <div class="table-cell"><span class="text-body">0</span></div>
               <div class="table-cell"><span class="text-body">0</span></div>
               <div class="table-cell"><span class="text-body">0</span></div>
@@ -1311,7 +1308,7 @@ body {
           <div class="accordion-header" onclick="toggleAccordion(this)">
             <div class="requirement-content">
                                           <div class="requirement-title-row">
-              <h3 class="title-requirement">📊 Performance Overview</h3>
+              <h3 class="title-requirement">Group: Risk Calculator Core Logic</h3>
                 <div class="requirement-status-tag status-success">
               <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="7.99961" cy="7.99998" r="6.4" fill="#10A363" fill-opacity="0.2"/>
@@ -1340,7 +1337,7 @@ body {
           <div class="accordion-header" onclick="toggleAccordion(this)">
             <div class="requirement-content">
                                           <div class="requirement-title-row">
-              <h3 class="title-requirement">📝 Verified Successes</h3>
+              <h3 class="title-requirement">Group: Trading Journal Management</h3>
                 <div class="requirement-status-tag status-success">
               <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="7.99961" cy="7.99998" r="6.4" fill="#10A363" fill-opacity="0.2"/>
@@ -1369,7 +1366,7 @@ body {
           <div class="accordion-header" onclick="toggleAccordion(this)">
             <div class="requirement-content">
                                           <div class="requirement-title-row">
-              <h3 class="title-requirement">📝 Key Findings / Failures Analysis</h3>
+              <h3 class="title-requirement">Group: AI Risk Evaluator (Roast)</h3>
                 <div class="requirement-status-tag status-success">
               <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="7.99961" cy="7.99998" r="6.4" fill="#10A363" fill-opacity="0.2"/>

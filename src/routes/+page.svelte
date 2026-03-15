@@ -6,6 +6,7 @@
     let risk: number | null = $state(null);
     let entry_price: number | null = $state(null);
     let stop_loss: number | null = $state(null);
+    let target_ratio: number = $state(2); // Default 1:2
     let showSuccess = $state(false);
 
     let hasValues = $derived(
@@ -34,8 +35,8 @@
     });
 
     let positionSize = $derived(isValid ? (capital! * (risk! / 100)) / Math.abs(entry_price! - stop_loss!) : 0);
-    let riskAmount = $derived(isValid ? capital! * (risk! / 100) : 0); // Static 1:2 ratio
-    let profitAmount = $derived(riskAmount * 2); 
+    let riskAmount = $derived(isValid ? capital! * (risk! / 100) : 0); 
+    let profitAmount = $derived(riskAmount * target_ratio); 
 
     function handleSave() {
         if (!isValid || !hasValues) return;
@@ -49,6 +50,7 @@
             entry_price: entry_price!,
             stop_loss_price: stop_loss!,
             position_size: positionSize,
+            target_ratio: target_ratio,
             status: 'Open'
         });
         
@@ -130,6 +132,14 @@
                 </div>
             </div>
 
+            <div class="flex flex-col gap-2 mt-6">
+                <label for="target_ratio" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Target Ratio (1:X)</label>
+                <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">track_changes</span>
+                    <input id="target_ratio" data-testid="input-ratio" bind:value={target_ratio} min="0.1" step="0.1" required class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white" placeholder="2" type="number" />
+                </div>
+            </div>
+
             <!-- Result Card -->
             <div class="mt-8 p-6 bg-primary/10 border border-primary/30 rounded-xl flex flex-col items-center justify-center text-center">
                 <p class="text-sm font-medium text-primary uppercase tracking-widest mb-2">Allowed Position Size</p>
@@ -145,7 +155,7 @@
                     </div>
                     <div class="w-px h-6 bg-slate-200 dark:bg-slate-700"></div>
                     <div class="flex flex-col text-left">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase">Target Profit (1:2)</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Target Profit (1:{target_ratio})</span>
                         <span class="font-black text-emerald-500">${profitAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                     </div>
                 </div>

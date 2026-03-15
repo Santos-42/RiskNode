@@ -2,18 +2,18 @@
   "status": "commited",
   "type": "frontend",
   "scope": "codebase",
-  "localEndpoint": "http://localhost:4175",
+  "localEndpoint": "http://localhost:5173",
   "loginUser": "riosantoso086@gmail.com",
   "executionArgs": {
     "projectName": "RiskNode",
     "projectPath": "d:\\Hackathons\\TestSprite - 16 March 2026\\RiskNode",
     "testIds": [],
-    "additionalInstruction": "STRICT REQUIREMENT: The application is running on http://localhost:4175. DO NOT USE PORT 5173. Use data-testid attributes for all interactions: input-asset, input-modal, input-risiko, input-entry, input-stoploss, btn-calculate, btn-roast, btn-won, btn-lost, btn-delete. \n\nGENERATE AND EXECUTE AT LEAST 6 TEST CASES covering:\n1. Basic position calculation and saving with all fields.\n2. Position calculation without optional Asset Pair.\n3. Edge case: Exactly 5% risk calculation and saving.\n4. Edge case: Division by zero prevention (Entry Price = Stop Loss).\n5. AI Risk Evaluator (Gemini) triggering and feedback verification.\n6. Journal management: Updating status (Won/Lost) and deleting entries.\n\nFollow the TESTING.md instructions for Playwright E2E tests. Ensure all 6+ tests are executed.",
+    "additionalInstruction": "Follow the instructions in TESTING.md. Ensure all 10 test cases are executed. The local server is running on port 5173. Verify that the \"greedy dreamer\" roast is triggered for unrealistic ratios.",
     "serverMode": "production",
     "envs": {
       "API_KEY": "sk-user-aEuK5oyDsdAXPnqUKvuyAzcYUDh_Uo4UBNcxZIrLwEZW122mTo1QLm7kJn8DFhJZRtztHm9L78b4zQNLiKgXcs0Pb1gpS7KpfKm5b6VT5KsHcaFCP8s08wdtPlQPYYTZZkI"
     }
   },
-  "serverPort": 60908,
-  "proxy": "http://f027fef7-62a2-4550-a3a5-e1f23b4e8154:1SstJxOGVL2sHVvZFzFD3LitowJUYK6c@tun.testsprite.com:8080"
+  "serverPort": 59358,
+  "proxy": "http://351ddb27-758a-486a-b130-82bba3ea4535:hSGQWnQh50Dgku8sVK0xEqgVWIDJQYVP@tun.testsprite.com:8080"
 }

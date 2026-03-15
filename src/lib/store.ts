@@ -10,6 +10,7 @@ export interface TradeEntry {
     entry_price: number;
     stop_loss_price: number;
     position_size: number;
+    target_ratio?: number; // Tambahkan ini
     status: 'Open' | 'Won' | 'Lost';
 }
 

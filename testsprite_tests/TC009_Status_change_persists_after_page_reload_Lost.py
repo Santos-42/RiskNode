@@ -30,25 +30,26 @@ async def run_test():
         page = await context.new_page()
 
         # Interact with the page elements to simulate user flow
-        # -> Navigate to http://localhost:4175
-        await page.goto("http://localhost:4175")
+        # -> Navigate to http://localhost:5173
+        await page.goto("http://localhost:5173")
         
-        # -> Click the 'Journal' navigation link to go to /journal (use element index 73).
+        # -> Click the 'Journal' link (index 74) to navigate to /journal and wait for the journal page to load.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
         await asyncio.sleep(3); await elem.click()
         
-        # -> Click the 'Journal' navigation link (index 73) again to attempt to navigate to /journal and load the journal page.
+        # -> Click the 'Journal' link (index 74) to navigate to /journal and wait for the page to load
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
         await asyncio.sleep(3); await elem.click()
         
-        # --> Test passed — verified by AI agent
+        # --> Assertions to verify final state
         frame = context.pages[-1]
-        current_url = await frame.evaluate("() => window.location.href")
-        assert current_url is not None, "Test completed successfully"
+        assert await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible(), "Expected 'Trade entries list' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Lost')]").nth(0).is_visible(), "Expected 'Lost' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Lost')]").nth(0).is_visible(), "Expected 'Lost' to be visible"
         await asyncio.sleep(5)
 
     finally:

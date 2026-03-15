@@ -30,37 +30,28 @@ async def run_test():
         page = await context.new_page()
 
         # Interact with the page elements to simulate user flow
-        # -> Navigate to http://localhost:4175
-        await page.goto("http://localhost:4175")
+        # -> Navigate to http://localhost:5173
+        await page.goto("http://localhost:5173")
         
-        # -> Click the 'Journal' link (use element index 73) to open the Journal page and continue verification.
+        # -> Click the 'Journal' navigation link to open the Trading Journal page (use interactive element index 74).
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
         await asyncio.sleep(3); await elem.click()
         
-        # -> Click the 'Journal' link (index 73) to open the Journal page so the Delete All button can be located and tested.
+        # -> Click the 'Journal' navigation link again to open the Trading Journal page, then wait for the page to load so assertions can be run.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
         await asyncio.sleep(3); await elem.click()
         
-        # -> Click the 'Delete All' button (index 265, data-testid=btn-delete) to verify idempotency when there are no entries.
+        # --> Assertions to verify final state
         frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/div/div/main/div/div[2]/button').nth(0)
-        await asyncio.sleep(3); await elem.click()
-        
-        # -> Click the 'Wipe Everything' button (index 372) to confirm deletion, then wait for UI update and verify the empty-state text and absence of journal entry rows.
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/div/div/main/div[5]/div/div[2]/button[2]').nth(0)
-        await asyncio.sleep(3); await elem.click()
-        
-        # --> Test passed — verified by AI agent
-        frame = context.pages[-1]
-        current_url = await frame.evaluate("() => window.location.href")
-        assert current_url is not None, "Test completed successfully"
+        assert await frame.locator("xpath=//*[contains(., 'Journal')]").nth(0).is_visible(), "Expected 'Journal' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible(), "Expected 'Trade entries list' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Winning')]").nth(0).is_visible(), "Expected 'Winning' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Losing')]").nth(0).is_visible(), "Expected 'Losing' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Delete')]").nth(0).is_visible(), "Expected 'Delete' to be visible"
         await asyncio.sleep(5)
 
     finally:

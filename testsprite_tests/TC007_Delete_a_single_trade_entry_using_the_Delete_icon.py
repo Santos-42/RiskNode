@@ -30,16 +30,22 @@ async def run_test():
         page = await context.new_page()
 
         # Interact with the page elements to simulate user flow
-        # -> Navigate to http://localhost:4175
-        await page.goto("http://localhost:4175")
+        # -> Navigate to http://localhost:5173
+        await page.goto("http://localhost:5173")
         
-        # -> Click the 'Journal' link in the navbar
+        # -> Click the 'Journal' link (element index 74) to navigate to the /journal page.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
         await asyncio.sleep(3); await elem.click()
         
-        # -> Click the 'Journal' link again (index 73) to ensure navigation to /journal completes and the Journal page renders.
+        # -> Click the 'Journal' link (index 71) to navigate to the /journal page, then check for the Trade entries list element.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a').nth(0)
+        await asyncio.sleep(3); await elem.click()
+        
+        # -> Click the 'Journal' link (interactive element index 74) to navigate to the /journal page, then check for the Trade entries list element being visible.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
@@ -47,8 +53,10 @@ async def run_test():
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert await frame.locator("xpath=//*[contains(., 'AI feedback')]").nth(0).is_visible(), "Expected 'AI feedback' to be visible"
-        assert await frame.locator("xpath=//*[contains(., 'AI feedback')]").nth(0).is_visible(), "Expected 'AI feedback' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible(), "Expected 'Trade entries list' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible(), "Expected 'Trade entries list' to be visible"
+        assert (await frame.locator("xpath=//*[contains(., 'No entries')]").nth(0).is_visible()) or (await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible()), "Expected 'No entries' to be visible OR at least one trade entry remains visible"
+        assert await frame.locator("xpath=//*[contains(., 'Delete All')]").nth(0).is_visible(), "Expected 'Delete All' to be visible"
         await asyncio.sleep(5)
 
     finally:

@@ -30,14 +30,27 @@ async def run_test():
         page = await context.new_page()
 
         # Interact with the page elements to simulate user flow
-        # -> Navigate to http://localhost:4175
-        await page.goto("http://localhost:4175")
+        # -> Navigate to http://localhost:5173
+        await page.goto("http://localhost:5173")
+        
+        # -> Click the 'Journal' link to open the journal page and then verify the trade entries list is visible
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
+        await asyncio.sleep(3); await elem.click()
+        
+        # -> Verify element 'Trade entries list' is visible on the page
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/div/div/header/div/nav/a[2]').nth(0)
+        await asyncio.sleep(3); await elem.click()
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        current_url = await frame.evaluate("() => window.location.href")
-        assert '/journal' in current_url
-        assert await frame.locator("xpath=//*[contains(., 'ETH/USDT')]").nth(0).is_visible(), "Expected 'ETH/USDT' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Trade entries list')]").nth(0).is_visible(), "Expected 'Trade entries list' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Won')]").nth(0).is_visible(), "Expected 'Won' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Winning')]").nth(0).is_visible(), "Expected 'Winning' to be visible"
+        assert await frame.locator("xpath=//*[contains(., 'Losing')]").nth(0).is_visible(), "Expected 'Losing' to be visible"
         await asyncio.sleep(5)
 
     finally:

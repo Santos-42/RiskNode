@@ -12,162 +12,131 @@
 
 ## 2️⃣ Requirement Validation Summary
 
-#### Test TC001 Calculate position size and save entry to journal from calculator
-- **Test Code:** [TC001_Calculate_position_size_and_save_entry_to_journal_from_calculator.py](./TC001_Calculate_position_size_and_save_entry_to_journal_from_calculator.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/ee14d7ac-d879-41ce-a896-81ce87e73bf8
+#### Test TC001 Save a valid trade to the journal from the Risk Calculator
+- **Test Code:** [TC001_Save_a_valid_trade_to_the_journal_from_the_Risk_Calculator.py](./TC001_Save_a_valid_trade_to_the_journal_from_the_Risk_Calculator.py)
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/a6e0765a-0e55-43e6-ac7d-a78b3ec3020e/b0c192d4-aba9-478d-9462-e65ad024e82a
 - **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
-#### Test TC002 Saved calculation appears in journal page list
-- **Test Code:** [TC002_Saved_calculation_appears_in_journal_page_list.py](./TC002_Saved_calculation_appears_in_journal_page_list.py)
+#### Test TC002 Save works at boundary value Risk % = 5% with valid prices
+- **Test Code:** [TC002_Save_works_at_boundary_value_Risk___5_with_valid_prices.py](./TC002_Save_works_at_boundary_value_Risk___5_with_valid_prices.py)
 - **Test Error:** TEST FAILURE
 
 ASSERTIONS:
-- Required data-testid attributes (input-asset, input-modal, input-risiko, input-entry, input-stoploss, btn-calculate, btn-roast, btn-won, btn-lost, btn-delete) not found on http://localhost:4175, preventing automated interactions.
-- Unable to execute the required 6+ Playwright E2E tests because the mandated selectors are missing on the page.
-- Journal entry verification (saving from calculator and checking the Journal in the same session) could not be performed due to missing selectors and therefore the save & journal flow cannot be validated.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/bd879970-fb61-4217-80c4-28afd5f6cb00
+- Save to Journal button not found on page
+- Trade could not be saved because no save action is available
+- Journal page could not be reached or verified because saving the trade is not possible
+- Required test cases (10) were not executed due to the missing save feature
+- Entry Price and Stop Loss were not set to the requested values (3000 and 2850), preventing manual verification of a saved trade
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/a6e0765a-0e55-43e6-ac7d-a78b3ec3020e/81285a30-c0f1-463b-8c35-bb91236e30fd
 - **Status:** ❌ Failed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
-#### Test TC003 Asset Pair is optional and save still works
-- **Test Code:** [TC003_Asset_Pair_is_optional_and_save_still_works.py](./TC003_Asset_Pair_is_optional_and_save_still_works.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Save to Journal button not found on page (no interactive element / index available)
-- Unable to click Save to Journal to persist the journal entry due to missing control
-- Cannot verify that leaving Asset Pair blank still allows saving because the save action cannot be triggered
-- Journal-related end-to-end tests (AI evaluator feedback, status update, delete) cannot be executed without a clickable save/persist control
-- Required test suite (6+ tests involving journal operations) could not be completed because core save functionality is not exposed as an interactive element
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/d1e7b758-899b-4a51-b3e2-1f0314f1c40a
-- **Status:** ❌ Failed
-- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
----
-
-#### Test TC004 Mark an existing journal entry as Won
-- **Test Code:** [TC004_Mark_an_existing_journal_entry_as_Won.py](./TC004_Mark_an_existing_journal_entry_as_Won.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Add Calculation modal could not be opened after 5 click attempts; modal inputs not present in the DOM.
-- No journal entries exist in the Journal table ('No trading records yet.'), so there is nothing to update to 'Won'.
-- Required data-testid attributes for interactions (e.g., input-entry, btn-won) are not available or not reachable, preventing automated test execution.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/fe41984e-c4e4-48d1-912e-c0c2af07cca3
-- **Status:** ❌ Failed
-- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
----
-
-#### Test TC005 Mark an existing journal entry as Lost
-- **Test Code:** [TC005_Mark_an_existing_journal_entry_as_Lost.py](./TC005_Mark_an_existing_journal_entry_as_Lost.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- No journal entries present on /journal: 'No trading records yet.' is visible
-- Add Calculation modal did not open after 2 click attempts on the 'Add Calculation' button
-- Unable to create a journal entry via the Calculator or modal, so updating an entry to 'Lost' cannot be tested
-- Requirement to use data-testid attributes for interactions could not be followed because the add-entry UI was inaccessible
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/37250309-9382-477c-b290-95a6013e476b
-- **Status:** ❌ Failed
-- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
----
-
-#### Test TC006 Delete a single journal entry from the list
-- **Test Code:** [TC006_Delete_a_single_journal_entry_from_the_list.py](./TC006_Delete_a_single_journal_entry_from_the_list.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Add Calculation modal not present or did not open after multiple click attempts on controls intended to open it.
-- Save-to-Journal functionality is not reachable from the visible Calculator UI (no actionable save control detected), preventing creation of a journal entry.
-- No journal entry could be created; the Journal page shows 'No trading records yet.' and contains 0 entries.
-- Delete button on a journal entry could not be tested because no entries exist to delete.
-
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/39803d2e-99df-4db3-85cf-ba212d7c987a
-- **Status:** ❌ Failed
-- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
----
-
-#### Test TC007 Delete all journal entries using Delete All
-- **Test Code:** [TC007_Delete_all_journal_entries_using_Delete_All.py](./TC007_Delete_all_journal_entries_using_Delete_All.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/44a76047-f037-4318-85e2-0ba00ddd7013
+#### Test TC003 Save a trade with a decimal Risk % and decimal prices
+- **Test Code:** [TC003_Save_a_trade_with_a_decimal_Risk__and_decimal_prices.py](./TC003_Save_a_trade_with_a_decimal_Risk__and_decimal_prices.py)
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/a6e0765a-0e55-43e6-ac7d-a78b3ec3020e/5289978d-9909-4392-928e-c52b8b93018d
 - **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
-#### Test TC008 Delete All on an already-empty journal
-- **Test Code:** [TC008_Delete_All_on_an_already_empty_journal.py](./TC008_Delete_All_on_an_already_empty_journal.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/164b487f-4ca7-4947-8837-5e425635f297
+#### Test TC004 View journal entries list on /journal when entries exist
+- **Test Code:** [TC004_View_journal_entries_list_on_journal_when_entries_exist.py](./TC004_View_journal_entries_list_on_journal_when_entries_exist.py)
+- **Test Error:** TEST FAILURE
+
+ASSERTIONS:
+- No trading records are present on the Trading Journal page: the table shows the message 'No trading records yet.'
+- 'Winning' button not visible on any trade entry because there are no entries to show a status button.
+- 'Losing' button not visible on any trade entry because there are no entries to show a status button.
+- No per-entry delete icon was found; only a page-level 'Delete All' control is present, so per-entry delete functionality could not be verified.
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/a6e0765a-0e55-43e6-ac7d-a78b3ec3020e/f2e009c0-a5b1-47db-8b6b-c77bbc17d3f1
+- **Status:** ❌ Failed
+- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
+---
+
+#### Test TC005 Mark a trade as Won using the Winning button
+- **Test Code:** [TC005_Mark_a_trade_as_Won_using_the_Winning_button.py](./TC005_Mark_a_trade_as_Won_using_the_Winning_button.py)
+- **Test Error:** TEST FAILURE
+
+ASSERTIONS:
+- No trade entries are present on the Journal page; the table displays 'No trading records yet.'
+- Winning button (data-testid="btn-won") not found on the page
+- Losing button (data-testid="btn-lost") not found on the page
+- Cannot mark an entry as 'Won' because there are no entries to interact with
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/a6e0765a-0e55-43e6-ac7d-a78b3ec3020e/9e854de9-698b-4814-a233-1e59edaa3a44
+- **Status:** ❌ Failed
+- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
+---
+
+#### Test TC006 Mark a trade as Lost using the Losing button
+- **Test Code:** [TC006_Mark_a_trade_as_Lost_using_the_Losing_button.py](./TC006_Mark_a_trade_as_Lost_using_the_Losing_button.py)
+- **Test Error:** TEST FAILURE
+
+ASSERTIONS:
+- Trade entries list is empty; page shows 'No trading records yet.'
+- No trade entry present to interact with; cannot click 'Lost' button on a trade.
+- No element with data-testid='btn-lost' was found within any trade entry on the page.
+- Cannot verify 'Lost' text within a trade entry because no entries exist.
+- Test prerequisites not met: at least one trade entry must exist to perform the requested checks.
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/a6e0765a-0e55-43e6-ac7d-a78b3ec3020e/ffec182a-14a8-4435-b450-9f0053e96750
+- **Status:** ❌ Failed
+- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
+---
+
+#### Test TC007 Delete a single trade entry using the Delete icon
+- **Test Code:** [TC007_Delete_a_single_trade_entry_using_the_Delete_icon.py](./TC007_Delete_a_single_trade_entry_using_the_Delete_icon.py)
+- **Test Error:** TEST FAILURE
+
+ASSERTIONS:
+- No trade entries present in the journal; the page displays the message 'No trading records yet.'
+- Individual delete control (data-testid='btn-delete') cannot be found because no trade rows exist to attach the control to.
+- Unable to perform and verify deletion of a trade entry because there are no existing entries to delete.
+- The automated test cannot proceed with steps that require an existing trade entry (clicking an individual delete icon and verifying removal).
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/a6e0765a-0e55-43e6-ac7d-a78b3ec3020e/ee80bb6a-4c6d-4de5-8f3c-5fd417771c2b
+- **Status:** ❌ Failed
+- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
+---
+
+#### Test TC008 Status change persists after page reload (Won)
+- **Test Code:** [TC008_Status_change_persists_after_page_reload_Won.py](./TC008_Status_change_persists_after_page_reload_Won.py)
+- **Test Error:** TEST FAILURE
+
+ASSERTIONS:
+- ASSERTION: 'No trading records yet.' message is displayed on /journal, so no trade entries exist to mark as Won.
+- ASSERTION: No 'Save to Journal' or equivalent control could be located in the Calculator view; entry creation cannot be performed.
+- ASSERTION: Unable to click a 'Winning' button (data-testid="btn-won") because no trade entries are present.
+- ASSERTION: Persistence of the 'Won' status could not be verified after reload because an entry could not be created.
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/a6e0765a-0e55-43e6-ac7d-a78b3ec3020e/a1400eda-d377-44f4-b45d-13e3bea4267a
+- **Status:** ❌ Failed
+- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
+---
+
+#### Test TC009 Status change persists after page reload (Lost)
+- **Test Code:** [TC009_Status_change_persists_after_page_reload_Lost.py](./TC009_Status_change_persists_after_page_reload_Lost.py)
+- **Test Error:** TEST FAILURE
+
+ASSERTIONS:
+- Trade entries list is empty on /journal; 'No trading records yet.' message is shown
+- 'Losing' button (data-testid="btn-lost") not found on the page so no entry can be marked as Lost
+- Cannot verify persistence of 'Lost' status because there is no trade entry to modify
+
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/a6e0765a-0e55-43e6-ac7d-a78b3ec3020e/d84fa0b3-53a9-4618-b28d-a5dd40f644ee
+- **Status:** ❌ Failed
+- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
+---
+
+#### Test TC010 Create an unrealistic trade, then evaluate and expect specific roast phrase
+- **Test Code:** [TC010_Create_an_unrealistic_trade_then_evaluate_and_expect_specific_roast_phrase.py](./TC010_Create_an_unrealistic_trade_then_evaluate_and_expect_specific_roast_phrase.py)
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/a6e0765a-0e55-43e6-ac7d-a78b3ec3020e/a600fb65-bb73-4fde-94ff-220c93039cf6
 - **Status:** ✅ Passed
-- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
----
-
-#### Test TC009 Mark Won on an entry already marked Won
-- **Test Code:** [TC009_Mark_Won_on_an_entry_already_marked_Won.py](./TC009_Mark_Won_on_an_entry_already_marked_Won.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- No journal entry rows present on the Journal page, so the 'Won' button cannot be clicked for any entry.
-- Journal entry row required for the test not found (table shows 'No trading records yet.').
-- Cannot verify that clicking 'Won' again preserves the 'Won' status because there is no entry to update.
-- Required end-to-end journal management tests (including updating status and deleting entries) could not be executed due to missing data (0/6 tests executed).
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/a108d429-8187-4a72-a15d-e7d0e01dc877
-- **Status:** ❌ Failed
-- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
----
-
-#### Test TC010 Toggle status from Won to Lost for the same entry
-- **Test Code:** [TC010_Toggle_status_from_Won_to_Lost_for_the_same_entry.py](./TC010_Toggle_status_from_Won_to_Lost_for_the_same_entry.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- No trading records present on the Journal page at http://localhost:4175/journal
-- No journal entry rows available to interact with (Won/Lost buttons cannot be found without entries)
-- Cannot verify status change from Won to Lost because there are no entries to update
-
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/6351afd0-b697-488b-a6b9-c00cd760e8b8
-- **Status:** ❌ Failed
-- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
----
-
-#### Test TC011 Evaluate journal successfully shows AI feedback
-- **Test Code:** [TC011_Evaluate_journal_successfully_shows_AI_feedback.py](./TC011_Evaluate_journal_successfully_shows_AI_feedback.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Required data-testid attributes (input-asset, input-modal, input-risiko, input-entry, input-stoploss, btn-calculate, btn-roast, btn-won, btn-lost, btn-delete) not present on page elements, preventing automated test interactions.
-- 'Evaluate My Journal' button not found or not accessible on the Journal page, preventing AI evaluation from being triggered.
-- 'Save to Journal' control or equivalent to create a non-empty journal entry could not be located, so the AI Risk Evaluator cannot be executed.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/fbbcf1aa-9e51-4b9f-a892-720b7d25f7d4
-- **Status:** ❌ Failed
-- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
----
-
-#### Test TC012 Double-click prevention: button stays in analyzing state after first click
-- **Test Code:** [TC012_Double_click_prevention_button_stays_in_analyzing_state_after_first_click.py](./TC012_Double_click_prevention_button_stays_in_analyzing_state_after_first_click.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/6c351a9a-706f-4048-be6c-c8b4aa1fd12a
-- **Status:** ✅ Passed
-- **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
----
-
-#### Test TC013 AI feedback remains visible after scrolling the journal page
-- **Test Code:** [TC013_AI_feedback_remains_visible_after_scrolling_the_journal_page.py](./TC013_AI_feedback_remains_visible_after_scrolling_the_journal_page.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- ASSERTION: 'Evaluate My Journal' button is present but disabled when the journal contains no entries, preventing AI evaluation from running.
-- ASSERTION: No 'AI feedback' block is present on the /journal page, so visibility during interactions cannot be verified.
-- ASSERTION: The journal displays 'No trading records yet.', indicating there is no data for the AI Risk Evaluator to analyze.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/54daab19-4306-4b6d-b939-3d1044e814ac/b8b2750b-1723-4e37-a253-9204d4d118d5
-- **Status:** ❌ Failed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 
 ## 3️⃣ Coverage & Matching Metrics
 
-- **30.77** of tests passed
+- **30.00** of tests passed
 
 | Requirement        | Total Tests | ✅ Passed | ❌ Failed  |
 |--------------------|-------------|-----------|------------|

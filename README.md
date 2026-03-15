@@ -17,6 +17,7 @@ $$\text{Position Size} = \frac{\text{Total Capital} \times (\text{Risk Percentag
 ## 🚀 Key Features
 
 - **Precision Calculator**: Real-time position size calculation with built-in safety limits.
+- **Target Reward Ratio**: User-defined Profit:Risk ratio (1:X) with dynamic profit potential visualization.
 - **Trading Journal**: Persistent trade history with status tracking (Open, Won, Lost).
 - **AI Risk Evaluator**: Powered by **Gemini 2.5 Flash**, providing brutally honest quantitative feedback.
 - **Privacy First**: All trade data is stored exclusively in your browser's `localStorage`. No server dependency.
