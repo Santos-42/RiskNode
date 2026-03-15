@@ -68,7 +68,14 @@
             const res = await fetch('/api/roast', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ trades: $journalStore })
+                body: JSON.stringify({ 
+                    trades: $journalStore,
+                    stats: {
+                        totalPnL: totalPnL,
+                        avgRisk: avgRisk,
+                        winRate: winRate
+                    }
+                })
             });
             
             const data = await res.json();
